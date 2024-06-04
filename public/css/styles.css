@@ -1,0 +1,186 @@
+/* Inicio Gerais */
+header{
+    background-color: white;
+    color: black;
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 16px;
+    height: 3.5rem;
+}
+
+body{
+    color: black;
+    background-color: rgba(230, 230, 230, 0.5) !important;
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 20px;
+}
+
+footer{
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 16px;    
+}
+
+main{
+    position: relative;
+    min-height: 100vh;
+}
+
+.row{
+    margin: 0;
+}
+
+#nav-container{ 
+    background-color: #e9e9e9
+}
+
+.navbar-brand{
+    padding: 0;
+    color: black;
+    transition: transform 0.5s;
+}
+
+.navbar-brand:hover {
+    color: black; 
+    transform: scale(1.05); 
+}
+
+.nav-link{
+    color: black;
+    transition: transform 0.5s;
+}
+
+.nav-link:hover {
+    color: black;
+    transform: scale(1.05);
+}
+
+/* Final Gerais */
+
+@media (min-width: 420px) {
+    #main-slider{
+        background-image: url(../imagens/bannerMain2.png);
+        background-position: center; 
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: auto;
+        height: 100vh;
+    }
+    
+    #sobre{
+        background-color: #e9e9e9;
+    }
+
+    #sobre .card{
+        background-color: #e9e9e9;
+    }
+    
+    #servico .card{
+        transition: transform 0.5s;
+    }
+
+    #servico .card:hover {
+        transform: scale(1.05);
+    }
+
+    #img-campus{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 75%;
+    }
+}
+
+@media (min-width: 1024px) {
+    #main-slider{
+        background-image: url(../imagens/bannerMain.png);
+        background-position: center; 
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: auto;
+        height: 100vh;
+    }
+
+    #sobre{
+        height: 100vh;
+        background-color: #e9e9e9
+    }
+
+    #sobre .card{
+        background-color: #e9e9e9;
+    }
+    
+    #servico{
+        height: 100vh;    
+    }
+
+    #servico .card{
+        transition: transform 0.5s;
+    }
+
+    #servico .card:hover {
+        transform: scale(1.05);
+    }
+
+    #img-campus{
+        transition: transform 0.5s;
+    }
+
+    #img-campus:hover {
+        transform: scale(1.05);
+    }
+
+
+    #data-input{
+        width: 75%;
+    }
+}
+
+#selecionar-treinamento,#selecionar-duplicidade,#selecionar-organizar{
+    color: #198754 !important;
+}
+
+#selecionar-treinamento,#selecionar-duplicidade,#selecionar-organizar:hover{
+    color: #157347 !important;
+}
+
+#nav-link-entrar{
+    color: #198754;
+}
+
+#nav-link-entrar:hover{
+    color: #157347;
+}
+
+#nav-link-sair{
+    color: #dc3545;
+}
+
+#nav-link-sair:hover{
+    color: #bb2d3b;
+}
+
+.circle {
+    background-color: #aaa;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+.circle img {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* cor cinza transparente */
+    z-index: 9999; /* garante que o overlay esteja acima de todo o conteúdo */
+}
