@@ -1,15 +1,14 @@
-/* Inicio Gerais */
+/* Estilos Gerais */
 header{
     background-color: white;
     color: black;
     font-family: 'Roboto', 'sans-serif';
     font-size: 16px;
-    height: 3.5rem;
 }
 
 body{
     color: black;
-    background-color: rgba(230, 230, 230, 0.5) !important;
+    background-color: #e9e9e9 !important; 
     font-family: 'Roboto', 'sans-serif';
     font-size: 20px;
 }
@@ -30,136 +29,6 @@ main{
     margin: 0;
 }
 
-#nav-container{ 
-    background-color: #e9e9e9
-}
-
-.navbar-brand{
-    padding: 0;
-    color: black;
-    transition: transform 0.5s;
-}
-
-.navbar-brand:hover {
-    color: black; 
-    transform: scale(1.05); 
-}
-
-.nav-link{
-    color: black;
-    transition: transform 0.5s;
-}
-
-.nav-link:hover {
-    color: black;
-    transform: scale(1.05);
-}
-
-/* Final Gerais */
-
-@media (min-width: 420px) {
-    #main-slider{
-        background-image: url(../imagens/bannerMain2.png);
-        background-position: center; 
-        background-repeat: no-repeat;
-        background-size: cover;
-        width: auto;
-        height: 100vh;
-    }
-    
-    #sobre{
-        background-color: #e9e9e9;
-    }
-
-    #sobre .card{
-        background-color: #e9e9e9;
-    }
-    
-    #servico .card{
-        transition: transform 0.5s;
-    }
-
-    #servico .card:hover {
-        transform: scale(1.05);
-    }
-
-    #img-campus{
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 75%;
-    }
-}
-
-@media (min-width: 1024px) {
-    #main-slider{
-        background-image: url(../imagens/bannerMain.png);
-        background-position: center; 
-        background-repeat: no-repeat;
-        background-size: cover;
-        width: auto;
-        height: 100vh;
-    }
-
-    #sobre{
-        height: 100vh;
-        background-color: #e9e9e9
-    }
-
-    #sobre .card{
-        background-color: #e9e9e9;
-    }
-    
-    #servico{
-        height: 100vh;    
-    }
-
-    #servico .card{
-        transition: transform 0.5s;
-    }
-
-    #servico .card:hover {
-        transform: scale(1.05);
-    }
-
-    #img-campus{
-        transition: transform 0.5s;
-    }
-
-    #img-campus:hover {
-        transform: scale(1.05);
-    }
-
-
-    #data-input{
-        width: 75%;
-    }
-}
-
-#selecionar-treinamento,#selecionar-duplicidade,#selecionar-organizar{
-    color: #198754 !important;
-}
-
-#selecionar-treinamento,#selecionar-duplicidade,#selecionar-organizar:hover{
-    color: #157347 !important;
-}
-
-#nav-link-entrar{
-    color: #198754;
-}
-
-#nav-link-entrar:hover{
-    color: #157347;
-}
-
-#nav-link-sair{
-    color: #dc3545;
-}
-
-#nav-link-sair:hover{
-    color: #bb2d3b;
-}
-
 .circle {
     background-color: #aaa;
     border-radius: 50%;
@@ -167,13 +36,13 @@ main{
     height: 150px;
     overflow: hidden;
     position: relative;
-  }
-  
+}
+
 .circle img {
     position: absolute;
     bottom: 0;
     width: 100%;
-  }
+}
 
 .overlay {
     position: fixed;
@@ -181,6 +50,181 @@ main{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* cor cinza transparente */
-    z-index: 9999; /* garante que o overlay esteja acima de todo o conteúdo */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
 }
+
+/* Estilos para o bloco do "Navbar" */
+.navbar-brand, .nav-link, .navbar a{
+    cursor: pointer;
+    color: black;
+    padding: 10px 15px; 
+    margin: 2px 8px; 
+    font-weight: bold;
+}
+
+#nav-container{ 
+    background-color: #e9e9e9;
+}
+
+#nav-link-entrar {
+    border: 2px solid green;
+    color: green;
+    border-radius: 8px;
+}
+
+#nav-link-entrar:hover {
+    background-color: green;
+    color: white;
+}
+
+#nav-link-sair {
+    border: 2px solid #dc3545;
+    color: #dc3545;
+    border-radius: 8px; 
+}
+
+#nav-link-sair:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Estilos para as setas do "Carousel" */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: darkgreen; 
+}
+
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+    background-color: darkgreen; 
+}
+
+/* Estilo para os indicadores do "Carrossel" */
+.carousel-indicators button {
+    background-color: darkgreen !important; 
+    width: 10rem !important; 
+    height: 0.5rem !important; 
+}
+
+.carousel-indicators .active {
+    background-color: green !important; 
+}
+
+/* Estilos para os blocos do "Carousel" */
+#main-slider {
+    background-image: url('../imagens/bannerMain2.png');
+    background-size: cover;
+    width: auto;
+    padding: 2rem;
+    margin: 1rem;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#servico {
+    width: auto;
+    padding: 2rem;
+    margin: 1rem;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#servico .card{
+    transition: transform 0.5s;
+}
+
+#servico .card:hover {
+    transform: scale(1.05);
+}
+
+/* Estilos o bloco do "Sobre" */
+#sobre {
+    width: auto;
+    padding: 2rem;
+    margin: 1rem;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#sobre .card{
+    border: none;
+}
+
+#image-instituicao {
+    padding: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+#image-aluno {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+#descricao-aluno {
+    text-align: right; 
+}
+
+/* Estilos o bloco do "Sobre" */
+#menu {
+    width: auto;
+    padding: 2rem;
+    margin: 1rem;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* Estilos os "Edits" das rotinas  */
+#data-input{
+    width: 50%;
+}
+
+/* -------------------------- Responsividade de tela no minimo 1280px -------------------------- */
+@media (min-width: 1280px) {
+    /* Estilos para os blocos do "Carousel" */
+    #main-slider {
+        background-image: url('../imagens/bannerMain.png');
+        background-size: cover;
+        background-repeat: no-repeat; 
+        background-position: center center;
+        height: 100vh;
+        padding: 5rem;
+        margin: 3rem;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }    
+
+    #servico {
+        width: auto;
+        height: 100vh;
+        padding: 5rem;
+        margin: 3rem;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    /* Estilos o bloco do "Sobre" */
+    #sobre {
+        width: auto;
+        padding: 5rem;
+        margin: 3rem;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    #sobre .card{
+        border: none;
+    }
+
+    /* Estilos os "Edits" das rotinas  */
+    #data-input{
+        width: 75%;
+    }
+}
+
