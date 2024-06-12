@@ -5,18 +5,18 @@
 
         <div class="container-fluid">
 
-            <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"> 
+            <div id="carousel-fotoplus" class="carousel slide carousel-fade" data-bs-ride="carousel"> 
 
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carousel-fotoplus" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carousel-fotoplus" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 </div>
 
                 <div class="carousel-inner">
 
-                    <div class="carousel-item active" data-bs-interval="10000000">
+                    <div class="carousel-item active" data-bs-interval="100000">
                         <div id="main-slider" class="container-fluid bg-white text-black">
-                            <div class='container-sm'>
+                            <div>
                                 <div class="row gx-5">
                                     <div class="col-lg">
                                         <div class="p-3">
@@ -54,7 +54,7 @@
                         </div>   
                     </div>
 
-                    <div class="carousel-item" data-bs-interval="10000000">
+                    <div class="carousel-item" data-bs-interval="100000">
                         <div id="servico" class="container-fluid bg-white text-black">
                             <h1 class="text-center mb-4"> Serviços </h1> 
                             <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -111,11 +111,11 @@
 
                 </div>
 
-                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-fotoplus" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden"> Anterior </span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel-fotoplus" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden"> Próximo </span>
                 </button>
@@ -155,7 +155,7 @@
                         <div class="row g-0">
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <p id="descricao-aluno" class="fs-5 text-md">
+                                    <p id="descricao-aluno" class="fs-5 text-md fst-italic">
                                         "Olá, pessoal! Meu nome é Renan Evilásio, entusiasta por tecnologia e possuo mais 
                                         de 5 anos de experiência em Delphi. Também tenho conhecimentos intermediários em 
                                         Python e iniciante em Laravel. Acredito que a organização do código é fundamental 

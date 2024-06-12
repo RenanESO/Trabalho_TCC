@@ -3,7 +3,7 @@
         <h1 class="text-center mb-4"> Escolha uma opção </h1>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col">
-                <div class="card h-100">
+                <div class="card m-2">
                     <img src="{{ asset('imagens/iconeOrganizar.png') }}" class="card-img-top" alt="card-RedeNeural">
                     <div class="card-body">
                         <h5 class="card-title"> Organizar conjunto de fotos </h5>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card h-100">
+                <div class="card m-2">
                     <img src="{{ asset('imagens/iconeDuplicidade.png') }}" class="card-img-top" alt="card-Seguranca">
                     <div class="card-body">
                         <h5 class="card-title"> Encontrar duplicidade de fotos </h5>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card h-100">
+                <div class="card m-2">
                     <img src="{{ asset('imagens/iconeTreinamento.png') }}" class="card-img-top" alt="card-Organizacao">
                     <div class="card-body">
                         <h5 class="card-title"> Treinamento IA </h5>

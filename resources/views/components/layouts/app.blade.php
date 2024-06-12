@@ -65,9 +65,6 @@
                         <ul class="navbar-nav">
                             @guest
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#servico"> {{ __('Serviços') }} </a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" href="#sobre"> {{ __('Sobre Nós') }} </a>
                                 </li>
                                 @if (Route::has('register'))

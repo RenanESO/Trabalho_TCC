@@ -111,7 +111,10 @@ main {
 #main-slider {
     width: auto;
     padding: 1rem;
-    margin: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     background-size: cover;
     background-repeat: no-repeat; 
     background-position: center center;
@@ -122,7 +125,10 @@ main {
 #servico {
     width: auto;
     padding: 1rem;
-    margin: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     background-size: cover;
     background-repeat: no-repeat; 
     background-position: center center;
@@ -130,9 +136,21 @@ main {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+#servico .card img{
+    max-width: 20rem;
+    max-height: 12rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;   
+}
+
+
 #servico .card{
     transition: transform 0.5s;
     margin: 10rem;
+    padding: 1rem;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 #servico .card:hover {
@@ -143,7 +161,10 @@ main {
 #sobre {
     width: auto;
     padding: 1rem;
-    margin: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     background-size: cover;
     background-repeat: no-repeat; 
     background-position: center center;
@@ -156,6 +177,7 @@ main {
 }
 
 #image-instituicao {
+    transition: transform 0.5s;
     padding: 1rem;
     display: block;
     margin-left: auto;
@@ -163,12 +185,21 @@ main {
     object-fit: cover;
 }
 
+#image-instituicao:hover {
+    transform: scale(1.05);
+}
+
 #image-aluno {
+    transition: transform 0.5s;
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
     object-fit: cover;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+#image-aluno:hover {
+    transform: scale(1.05);
 }
 
 #descricao-aluno {
@@ -178,11 +209,37 @@ main {
 /* Estilos o bloco do "menu" */
 #menu {
     width: auto;
-    padding: 2rem;
-    margin: 1rem;
+    padding: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center center;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+#menu .card{
+    padding: 1rem;
+    transition: transform 0.5s;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+#menu .card:hover {
+    transform: scale(1.05);
+}
+
+#menu .card img{
+    max-width: 20rem;
+    max-height: 12rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;   
+}
+
 
 /* -------------------------- Responsividade de tela no minimo 720px -------------------------- */
 @media (min-width: 720px) {
@@ -198,14 +255,22 @@ main {
         background-color: darkgreen; 
     }
 
-    /* Estilos para os "Card" do "Carousel" */
-    .carousel-item .card {
+    /* Estilos o bloco do "menu" */
+    #menu {
+        padding: 3rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    #menu .card {
         flex: 1;
         height: 100%; 
         display: flex;
         flex-direction: column;
     }
-    .carousel-item .card-body {
+    #menu .card-body {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -215,19 +280,41 @@ main {
     #main-slider {
         background-image: url('../imagens/bannerMain2.png');
         padding: 3rem;
-        margin: 1rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
     }    
 
     #servico {
         background-image: url('../imagens/bannerMain2.png');
         padding: 3rem;
-        margin: 1rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Estilos para os "Card" do "Carousel" */
+    #carousel-fotoplus .card {
+        flex: 1;
+        height: 100%; 
+        display: flex;
+        flex-direction: column;
+    }
+    #carousel-fotoplus .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     /* Estilos o bloco do "Sobre" */
     #sobre {
         padding: 3rem;
-        margin: 1rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
     }
 }
 
@@ -244,37 +331,45 @@ main {
     .carousel-control-next:hover .carousel-control-next-icon {
         background-color: darkgreen; 
     }
-
-    /* Estilos para os "Card" do "Carousel" */
-    .carousel-item .card {
-        flex: 1;
-        height: 100%; 
-        display: flex;
-        flex-direction: column;
-    }
-    .carousel-item .card-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
+    
+    /* Estilos o bloco do "menu" */
+    #menu {
+        min-height: 100vh;
+        padding: 4rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 
     /* Estilos para os blocos do "Carousel" */
     #main-slider {
         background-image: url('../imagens/bannerMain2.png');
+        display: block;
+        object-fit: cover;
         padding: 4rem;
-        margin: 2rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }    
 
     #servico {
         background-image: url('../imagens/bannerMain2.png');
         padding: 4rem;
-        margin: 2rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 
     /* Estilos o bloco do "Sobre" */
     #sobre {
         padding: 4rem;
-        margin: 2rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 }
 
@@ -292,36 +387,42 @@ main {
         background-color: darkgreen; 
     }
 
-    /* Estilos para os "Card" do "Carousel" */
-    .carousel-item .card {
-        flex: 1;
-        height: 100%; 
-        display: flex;
-        flex-direction: column;
-    }
-    .carousel-item .card-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
+    /* Estilos o bloco do "menu" */
+    #menu {
+        padding: 5rem;
+        margin-left: 3rem;
+        margin-right: 3rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 
     /* Estilos para os blocos do "Carousel" */
     #main-slider {
         background-image: url('../imagens/bannerMain.png');
+        min-height: 80vh;
         padding: 5rem;
-        margin: 3rem;
+        margin-left: 3rem;
+        margin-right: 3rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }    
 
     #servico {
         background-image: url('../imagens/bannerMain2.png');
         padding: 5rem;
-        margin: 3rem;
+        margin-left: 3rem;
+        margin-right: 3rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 
     /* Estilos o bloco do "Sobre" */
     #sobre {
         padding: 5rem;
-        margin: 3rem;
+        margin-left: 3rem;
+        margin-right: 3rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
     }
 }
 
