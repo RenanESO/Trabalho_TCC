@@ -58,9 +58,16 @@ main {
 .navbar-brand, .nav-link, .navbar a{
     cursor: pointer;
     color: black;
-    padding: 10px 15px; 
-    margin: 2px 8px; 
+    padding: 0.5rem 0.5rem; 
+    margin: 0.5rem 0.5rem; 
     font-weight: bold;
+}
+
+#bem-vindo {
+    cursor: pointer;
+    color: black;
+    padding: 0.5rem 0.5rem; 
+    margin: 0.5rem 0.5rem;   
 }
 
 #nav-container{ 

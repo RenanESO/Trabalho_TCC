@@ -51,15 +51,24 @@
                         <div>
                             <img src="{{ asset('imagens/iconeNav.png') }}" width="35" height="35" alt="Logo"> 
                         </div>
-                        <div style="margin-left: 10px;">
+                        <div class="mx-2">
                             <!-- Nome da aplicação -->
                             <span> {{ __('FotoPlus') }} </span>
-                        </div>              
+                        </div> 
                     </a>
+
+                    <!-- Nome Usuario -->
+                    @auth
+                        <div id="bem-vindo">
+                            <span> Bem vindo {{ Auth::user()->name }} #{{ Auth::user()->id }} </span>     
+                        </div>     
+                    @endauth
+
                     <!-- Botão para NavBar (Resolução Baixa) -->
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-links" aria-controls="navbar-links" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-links" aria-controls="navbar-links" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button> 
+
                     <!-- Itens do NavBar -->
                     <div id="navbar-links" class="collapse navbar-collapse d-lg-flex align-items-center justify-content-end">
                         <ul class="navbar-nav">
