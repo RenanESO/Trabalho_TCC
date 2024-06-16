@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('pessoas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nome', 100);
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

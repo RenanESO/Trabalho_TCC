@@ -116,10 +116,13 @@
         {{ $slot }}   
 
         <!-- Inicio :: Footer -->
-        <footer class="footer mt-auto py-3">
-            <div class="container">
-                <p> FotoPlus &copy;Copyright 2023 </p>
-            </div>
+        <footer class="footer mt-auto">
+            <ul class="social-icons">
+                <li><p> FotoPlus &copy;Copyright 2023-2024 </p></div>
+                <li><p> Visite as Redes Sociais </p></li>
+                <li><a href="https://www.linkedin.com/in/renan-evilásio-43b357247" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                <li><a href="https://www.instagram.com/renan_eso/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            </ul>
         </footer>       
         <!-- Fim :: Footer --> 
 
@@ -143,10 +146,10 @@
 
         <!-- Icones IonIcons -->
         <script  
-            type = "module"  src = "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"> 
+            type="module"  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"> 
         </script>
         <script  
-            nomodule  src = "https://unpkg .com/ionicons@7.1.0/dist/ionicons/ionicons.js"> 
+            nomodule src="https://unpkg .com/ionicons@7.1.0/dist/ionicons/ionicons.js"> 
         </script>
 
         @livewireScripts

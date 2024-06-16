@@ -51,7 +51,7 @@
 
                             <!-- Inicio :: Titulo Card -->
                             <div class="card-header">
-                                <h4 class="text"> 1º Passo: Carregar imagem </h4>
+                                <h4 class="text"> 1º Passo: Carregar imagem {{ $login_id_usuario }} </h4>
                             </div>
                             <!-- Fim :: Titulo Card -->
 
@@ -205,3 +205,25 @@
         }
     }
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.getElementById('personTable');
+        const rows = table.getElementsByTagName('tr');
+        
+        for (let i = 1; i < rows.length; i++) { // Start from 1 to skip header row
+            rows[i].addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                
+                // Remove selected class from all rows
+                for (let j = 1; j < rows.length; j++) {
+                    rows[j].classList.remove('selected');
+                }
+                
+                // Add selected class to the clicked row
+                this.classList.add('selected');
+            });
+        }
+    });
+</script> 

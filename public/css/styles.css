@@ -1,4 +1,12 @@
 /* Estilos Gerais */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 header {
     background-color: white;
     color: black;
@@ -13,20 +21,29 @@ body {
     font-size: 20px;
 }
 
+main {
+    position: relative;
+    max-width: 1580px;
+    margin: 0 auto;  
+}
+
 footer {
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     font-family: 'Roboto', 'sans-serif';
-    font-size: 16px;    
+    font-size: 16px;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 8rem;
+    padding: 2.5rem;
 }
 
-main {
-    position: relative;
-    min-height: 100vh;
-}
-
-.row {
-    margin: 0;
+.social-icons {
+    list-style: none;
+    display: flex;
+    gap: 20px;
 }
 
 .circle {
@@ -64,7 +81,6 @@ main {
 }
 
 #bem-vindo {
-    cursor: pointer;
     color: black;
     padding: 0.5rem 0.5rem; 
     margin: 0.5rem 0.5rem;   
@@ -338,16 +354,6 @@ main {
     .carousel-control-next:hover .carousel-control-next-icon {
         background-color: darkgreen; 
     }
-    
-    /* Estilos o bloco do "menu" */
-    #menu {
-        min-height: 100vh;
-        padding: 4rem;
-        margin-left: 2rem;
-        margin-right: 2rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
 
     /* Estilos para os blocos do "Carousel" */
     #main-slider {
@@ -378,6 +384,15 @@ main {
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
+
+    /* Estilos o bloco do "menu" */
+    #menu {
+        padding: 4rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 }
 
 /* -------------------------- Responsividade de tela no minimo 1280px -------------------------- */
@@ -394,19 +409,13 @@ main {
         background-color: darkgreen; 
     }
 
-    /* Estilos o bloco do "menu" */
-    #menu {
-        padding: 5rem;
-        margin-left: 3rem;
-        margin-right: 3rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-
     /* Estilos para os blocos do "Carousel" */
     #main-slider {
         background-image: url('../imagens/bannerMain.png');
-        min-height: 80vh;
+        background-size: contain;
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        justify-content: center;
         padding: 5rem;
         margin-left: 3rem;
         margin-right: 3rem;
@@ -416,6 +425,10 @@ main {
 
     #servico {
         background-image: url('../imagens/bannerMain2.png');
+        background-size: contain;
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        justify-content: center;
         padding: 5rem;
         margin-left: 3rem;
         margin-right: 3rem;
@@ -425,6 +438,20 @@ main {
 
     /* Estilos o bloco do "Sobre" */
     #sobre {
+        padding: 5rem;
+        margin-left: 3rem;
+        margin-right: 3rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Estilos o bloco do "Menu" */
+    #menu {
+        background-image: url('../imagens/bannerMain2.png');
+        background-size: contain;
+        background-position: right bottom;
+        background-repeat: no-repeat;
+        justify-content: center;
         padding: 5rem;
         margin-left: 3rem;
         margin-right: 3rem;
