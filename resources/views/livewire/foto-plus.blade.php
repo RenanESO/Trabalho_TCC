@@ -1,7 +1,7 @@
 <div>
     
     <!-- Inicio :: Main -->
-    <main>
+    <main class="container-fluid">
 
         <div class="container-fluid">
 
@@ -14,9 +14,9 @@
 
                 <div class="carousel-inner">
 
-                    <div class="carousel-item active" data-bs-interval="100000">
-                        <div id="main-slider" class="container-fluid bg-white text-black">
-                            <div>
+                    <div class="carousel-item active" data-bs-interval="10000">
+                        <div id="main-slider">
+
                                 <div class="row gx-5">
                                     <div class="col-lg">
                                         <div class="p-3">
@@ -50,12 +50,12 @@
                                     </div>
                                 </div>
                                 <br> <br>
-                            </div>
+                     
                         </div>   
                     </div>
 
-                    <div class="carousel-item" data-bs-interval="100000">
-                        <div id="servico" class="container-fluid bg-white text-black">
+                    <div class="carousel-item" data-bs-interval="10000">
+                        <div id="servico">
                             <h1 class="text-center mb-4"> Serviços </h1> 
                             <div class="row row-cols-1 row-cols-md-3 g-4">
                                 <div class="col">
@@ -124,13 +124,13 @@
 
         </div>
 
-        <div class="container-fluid" >
+        <div class="container-fluid">
             <div id="sobre"> 
                 <h1 class="text-center mb-4"> Sobre Nós </h1> 
                 <div  class="row align-items-center">
                     <div class="col">
                         <div class="card">
-                            <a href="https://www.formiga.ifmg.edu.br">
+                            <a href="https://www.formiga.ifmg.edu.br" target="_blank">
                                 <img id="image-instituicao" src="{{ asset('imagens/IFMG.png') }}" alt="imagem-campus" class="img-fluid">
                             </a>    
                             <div class="card-body">
@@ -177,3 +177,16 @@
     <!-- Fim :: Main -->
 
 </div>
+
+<!--
+<script>
+    if (window.innerWidth > 1280) {
+      const img = new Image();
+      img.src = '../imagens/bannerMain.png';
+      img.onload = function() {
+        const div = document.getElementById('main-slider');
+        div.style.height = `${img.height}px`;
+      };
+    }
+</script>
+-->

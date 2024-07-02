@@ -56,11 +56,10 @@ class Treinamento extends Component
     // Função principal para renderizar a pagina no blade "Treinamento".
     public function render() {
         $nomeApp = "FotoPlus";  
+        $user = auth()->id();
         $listaPessoas = Pessoa::select(['pessoas.*', 'rostos.url_rosto'])
-            ->leftJoin('rostos', function($join) {
-                $join->on('rostos.id_pessoa', '=', 'pessoas.id')
-                     ->whereRaw('rostos.id = (select id from rostos where rostos.id_pessoa = pessoas.id limit 1)');
-            })
+            ->leftJoin('rostos', 'rostos.id_pessoa', '=', 'pessoas.id')
+            ->where('user_id', $user) 
             ->where('nome', 'like', '%' . $this->query_pessoas_cadastro . '%')
             ->orderBy('nome')
             ->paginate(10);
@@ -156,11 +155,20 @@ class Treinamento extends Component
             // Adapte as regras de validação conforme necessário.
             $this->validate([
                 'nome_pessoa_cadastro' => 'required|string|min:1|max:100',
-                'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg,gif|min:1|max:2048'
+                'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg,gif|min:1|max:2048',
+                'login_id_usuario' => 'required'
             ]);
 
+            // Verifica se login_id_usuario está definido e não é nulo
+            if (!$this->login_id_usuario) {
+                throw new \Exception('User ID is required.');
+            }
+
             // Cadastrado uma nova pessoa na tabela.
-            $pessoa_cadastrada = Pessoa::create(['nome' => $this->nome_pessoa_cadastro]);
+            $pessoa_cadastrada = Pessoa::create([
+                'nome' => $this->nome_pessoa_cadastro,
+                'user_id' => $this->login_id_usuario
+            ]);
 
             // Atribui na variavel o id da nova pessoa cadastrada para realizar o treinamento 
             // do rosto inserido.
@@ -184,7 +192,8 @@ class Treinamento extends Component
             // Adapte as regras de validação conforme necessário.
             $this->validate([
                 'id_pessoa_treinamento' => 'required',
-                'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg,gif|min:1|max:2048'
+                'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg,gif|min:1|max:2048',
+                'login_id_usuario' => 'required'
             ]);
 
             // Defina o caminho para armazenar a imagem
@@ -201,7 +210,7 @@ class Treinamento extends Component
             // Cadastrado um novo rosto na tabela, referente a pessoa criada ou selecionada.
             Rosto::create([
                 'id_pessoa' => $this->id_pessoa_treinamento,
-                'url_rosto' => $this->image_pessoa_treinamento,
+                'url_rosto' => $this->image_pessoa_treinamento
             ]);
             
             $parametros = [     

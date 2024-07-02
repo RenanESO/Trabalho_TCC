@@ -33,7 +33,7 @@
         <!-- Fim :: Alerta -->
 
         <!-- Inicio :: Titulo Card Principal-->
-        <div class="card shadow m-4 bg-body rounded">
+        <div class="card bg-body rounded">
 
             <!-- Inicio :: Titulo Card Principal-->
             <div class="card-header">
@@ -51,7 +51,7 @@
                 <div class="col-lg mx-auto m-2"> 
                     
                     <!-- Inicio :: 1º Card -->
-                    <div class="card shadow-sm">
+                    <div class="card">
 
                         <!-- Inicio :: Titulo Card -->
                         <div class="card-header">
@@ -81,7 +81,7 @@
                 <div class="col-lg mx-auto m-2">  
 
                     <!-- Inicio :: 2º Card -->
-                    <div class="card shadow-sm">
+                    <div class="card">
 
                         <!-- Inicio :: Titulo Card -->
                         <div class="card-header">
@@ -117,7 +117,7 @@
                 <div class="col-lg mx-auto m-2">    
 
                     <!-- Inicio :: 3º Card -->
-                    <div class="card shadow-sm">
+                    <div class="card">
 
                         <!-- Inicio :: Titulo Card -->
                         <div class="card-header">

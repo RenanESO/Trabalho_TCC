@@ -71,12 +71,11 @@ class Organizar extends Component
     }
 
     public function render() {
-        $nomeApp = "FotoPlus";  
+        $nomeApp = "FotoPlus"; 
+        $user = auth()->id(); 
         $listaPessoas = Pessoa::select(['pessoas.*', 'rostos.url_rosto'])
-        ->leftJoin('rostos', function($join) {
-            $join->on('rostos.id_pessoa', '=', 'pessoas.id')
-                 ->whereRaw('rostos.id = (select id from rostos where rostos.id_pessoa = pessoas.id limit 1)');
-        })
+        ->leftJoin('rostos', 'rostos.id_pessoa', '=', 'pessoas.id')
+        ->where('user_id', $user) 
         ->where('nome', 'like', '%' .$this->query_filtro_pessoa .'%')
         ->orderBy('nome')
         ->paginate(10);

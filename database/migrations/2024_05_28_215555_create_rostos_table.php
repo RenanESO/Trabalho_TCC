@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('rostos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_pessoa')->nullable;
-            $table->text('url_rosto', 200)->nullable;
+            $table->unsignedBigInteger('id_pessoa')->nullable();
+            $table->text('url_rosto', 200)->nullable();
             $table->timestamps();
 
             $table->foreign('id_pessoa')->references('id')->on('pessoas');
