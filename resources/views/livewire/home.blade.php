@@ -1,12 +1,12 @@
 <div>
 
     <!-- Inicio :: Main -->
-    <main class="container-fluid">
+    <main class="container-fluid" >
 
-        <div id="menu" class="container-fluid" >
+        <div id="menu">
             <h1 class="text-center mb-4"> Escolha uma opção </h1>
             <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
+                <div class="col-lg">
                     <div class="card m-2">
                         <img src="{{ asset('imagens/iconeOrganizar.png') }}" class="card-img-top" alt="card-RedeNeural">
                         <div class="card-body">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-lg">
                     <div class="card m-2">
                         <img src="{{ asset('imagens/iconeDuplicidade.png') }}" class="card-img-top" alt="card-Seguranca">
                         <div class="card-body">
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-lg">
                     <div class="card m-2">
                         <img src="{{ asset('imagens/iconeTreinamento.png') }}" class="card-img-top" alt="card-Organizacao">
                         <div class="card-body">

@@ -5,6 +5,7 @@ body, html {
     height: 100%;
     display: flex;
     flex-direction: column;
+    min-width: 470px;
 }
 
 header {
@@ -25,6 +26,7 @@ main {
     position: relative;
     max-width: 1580px;
     margin: 0 auto;  
+    padding: 0;
 }
 
 footer {
@@ -81,14 +83,12 @@ footer {
     cursor: pointer;
     color: black;
     padding: 0.5rem 0.5rem; 
-    margin: 0.5rem 0.5rem; 
     font-weight: bold;
 }
 
 #bem-vindo {
     color: black;
-    padding: 0.5rem 0.5rem; 
-    margin: 0.5rem 0.5rem;   
+    padding: 0.5rem 0.5rem;   
 }
 
 #nav-container{ 
@@ -135,14 +135,22 @@ footer {
     background-color: green !important; 
 }
 
+#carousel-fotoplus {
+    width: auto;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center center;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
 /* Estilos para os blocos do "Carousel" */
 #main-slider {
     width: auto;
     padding: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
     background-size: cover;
     background-repeat: no-repeat; 
     background-position: center center;
@@ -153,10 +161,6 @@ footer {
 #servico {
     width: auto;
     padding: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
     background-size: cover;
     background-repeat: no-repeat; 
     background-position: center center;
@@ -176,7 +180,9 @@ footer {
 
 #servico .card{
     transition: transform 0.5s;
-    margin: 10rem;
+    margin-top: 1rem;
+    margin-left: 4rem;
+    margin-right:  4rem;
     padding: 1rem;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
 }
@@ -189,8 +195,6 @@ footer {
 #sobre {
     width: auto;
     padding: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     background-size: cover;
@@ -238,8 +242,6 @@ footer {
 #menu {
     width: auto;
     padding: 1rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     background-size: cover;
@@ -271,8 +273,8 @@ footer {
 /* Estilos o bloco do "Formulario" */
 .formulario {
     width: auto;
-    padding: 0.5rem;
-    margin: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     background-size: cover;
     background-repeat: no-repeat; 
     background-position: center center;
@@ -281,8 +283,8 @@ footer {
 }
 
 .imagem-pessoa {
-    width: 7rem;
-    height: 7rem;
+    max-width: 7rem;
+    max-height: 7rem;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -290,8 +292,8 @@ footer {
 }
 
 #imagem-treinamento {
-    width: 7rem;
-    height: 7rem;
+    max-width: 10rem;
+    max-height: 10rem;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -328,6 +330,7 @@ input[type="file"] {
         background-color: darkgreen; 
     }
 
+    /* Estilos para as setas do "Carousel" */
     .carousel-control-prev:hover .carousel-control-prev-icon,
     .carousel-control-next:hover .carousel-control-next-icon {
         background-color: darkgreen; 
@@ -340,29 +343,32 @@ input[type="file"] {
         display: flex;
         flex-direction: column;
     }
+
+    /* Estilos para os "Card" do "Carousel" */
     #carousel-fotoplus .card-body {
         flex: 1;
         display: flex;
         flex-direction: column;
     }
 
-    /* Estilos para os blocos do "Carousel" */
+    /* Estilos para o bloco "Carousel" */
+    #carousel-fotoplus {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Estilos para os sub-blocos do "Carousel" */
     #main-slider {
         background-image: url('../imagens/bannerMain2.png');
         padding: 3rem;
-        margin-left: 1rem;
-        margin-right: 1rem;
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
     }    
 
+     /* Estilos para os sub-blocos do "Carousel" */
     #servico {
         background-image: url('../imagens/bannerMain2.png');
         padding: 3rem;
-        margin-left: 1rem;
-        margin-right: 1rem;
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
     }
 
     /* Estilos o bloco do "Sobre" */
@@ -383,12 +389,15 @@ input[type="file"] {
         margin-bottom: 0.5rem;
     }
 
+    /* Estilos os "card" do bloco do "menu" */
     #menu .card {
         flex: 1;
         height: 100%; 
         display: flex;
         flex-direction: column;
     }
+
+    /* Estilos os "card" do bloco do "menu" */
     #menu .card-body {
         flex: 1;
         display: flex;
@@ -413,30 +422,32 @@ input[type="file"] {
         background-color: darkgreen; 
     }
 
+    /* Estilos para as setas do "Carousel" */
     .carousel-control-prev:hover .carousel-control-prev-icon,
     .carousel-control-next:hover .carousel-control-next-icon {
         background-color: darkgreen; 
     }
 
-    /* Estilos para os blocos do "Carousel" */
+    /* Estilos para o bloco "Carousel" */
+    #carousel-fotoplus {
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Estilos para os sub-blocos do "Carousel" */
     #main-slider {
         background-image: url('../imagens/bannerMain2.png');
         display: block;
         object-fit: cover;
         padding: 4rem;
-        margin-left: 2rem;
-        margin-right: 2rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
     }    
 
+    /* Estilos para os sub-blocos do "Carousel" */
     #servico {
         background-image: url('../imagens/bannerMain2.png');
         padding: 4rem;
-        margin-left: 2rem;
-        margin-right: 2rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
     }
 
     /* Estilos o bloco do "Sobre" */
@@ -475,12 +486,21 @@ input[type="file"] {
         background-color: darkgreen; 
     }
 
+    /* Estilos para as setas do "Carousel" */
     .carousel-control-prev:hover .carousel-control-prev-icon,
     .carousel-control-next:hover .carousel-control-next-icon {
         background-color: darkgreen; 
     }
 
-    /* Estilos para os blocos do "Carousel" */
+    /* Estilos para o bloco "Carousel" */
+    #carousel-fotoplus {
+        margin-left: 3rem;
+        margin-right: 3rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Estilos para os sub-blocos do "Carousel" */
     #main-slider {
         background-image: url('../imagens/bannerMain.png');
         background-size: contain;
@@ -488,12 +508,9 @@ input[type="file"] {
         background-repeat: no-repeat;
         justify-content: center;
         padding: 5rem;
-        margin-left: 3rem;
-        margin-right: 3rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
     }    
 
+    /* Estilos para os sub-blocos do "Carousel" */
     #servico {
         background-image: url('../imagens/bannerMain2.png');
         background-size: contain;
@@ -501,10 +518,6 @@ input[type="file"] {
         background-repeat: no-repeat;
         justify-content: center;
         padding: 5rem;
-        margin-left: 3rem;
-        margin-right: 3rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
     }
 
     /* Estilos o bloco do "Sobre" */

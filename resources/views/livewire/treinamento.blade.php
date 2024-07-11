@@ -2,38 +2,45 @@
 
     <!-- Inicio :: Main -->
     <main class="container-fluid">
-        <div class="formulario">
-            <div class="overlay" wire:loading wire:target="treinarPessoa, cadastrarPessoa"> </div>
 
-            <div class="alert alert-primary text-center shadow-sm p-3 mt-4 mx-4 rounded"  wire:loading.grid wire:target="cadastrarPessoa, treinarPessoa">
+        <!-- Inicio :: Formulario -->
+        <div class="formulario">
+
+            <!-- Inicio :: Tela Cinza Carregamento -->
+            <div class="overlay" wire:loading wire:target="treinarPessoa, cadastrarPessoa"> </div>
+            <!-- Fim :: Tela Cinza Carregamento -->
+
+            <!-- Inicio :: Carregamento -->
+            <div class="alert alert-primary text-center shadow-sm p-3 mt-4 rounded"  wire:loading.grid wire:target="cadastrarPessoa, treinarPessoa">
                 <i class="fas fa-spinner fa-spin"></i> Aguarde Carregando... 
             </div>
+            <!-- Fim :: Carregamento -->
 
             <!-- Inicio :: Alerta -->
             @if (session('log'))
-            <div class="alert alert-light text-center shadow-sm p-3 mt-4 mx-4 rounded">
+            <div class="alert alert-light text-center shadow-sm p-3 mt-4 rounded">
                 <i class="fa fa-cog"></i> {{ session('log') }} <br><br>
                 <button type="button" class="btn btn-secondary" wire:click="alterarTamanhoLog"> {{ $nome_botao_log }} </button>
             </div>
             @endif
             @if (session('error'))
-                <div class="alert alert-danger text-center shadow-sm p-3 mt-4 mx-4 rounded">
+                <div class="alert alert-danger text-center shadow-sm p-3 mt-4 rounded">
                     <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
                 </div>
             @endif
             @if (session('debug'))
-                <div class="alert alert-primary text-center shadow-sm p-3 mt-4 mx-4 rounded">
+                <div class="alert alert-primary text-center shadow-sm p-3 mt-4 rounded">
                     <i class="fas fa-exclamation-circle"></i> {{ session('debug') }}
                 </div>
             @endif
             <!-- Fim :: Alerta -->
 
             <!-- Inicio :: Card Principal -->
-            <div class="card bg-body rounded">
+            <div class="card bg-body">
 
                 <!-- Inicio :: Titulo Card Principal-->
                 <div class="card-header">
-                    <h3 class="text-center">Treinamento imagem de uma pessoa </h3>
+                    <h3 class="text-center"> Treinamento imagem de uma pessoa </h3>
                 </div>
                 <!-- Fim :: Titulo Card Principal-->
 
@@ -56,23 +63,25 @@
                                 <!-- Fim :: Titulo Card -->
 
                                 <!-- Inicio :: Conteudo Card -->
-                                <div class="card-body text-black">
+                                <div class="card-body">
 
-                                <!-- Inicio :: Buscar Imagem -->
-                                <form wire:submit.prevent="buscarImagem"> 
-                                    <label class="custom-file-upload">
-                                        <input type="file" wire:model="image_pessoa_treinamento" required>
-                                        Selecionar Ficheiro
-                                    </label>
-                                    @error('image_pessoa_treinamento') 
-                                        <span class="error"> {{ $message }} </span> 
-                                    @enderror
-                                    <br><br>
-                                    @if ($image_pessoa_treinamento)
-                                        <img id="imagem-treinamento" src="{{ $image_pessoa_treinamento->temporaryUrl() }}">
-                                    @endif
-                                </form>
-                                <!-- Fim :: Buscar Imagem -->
+                                    <!-- Inicio :: Buscar Imagem -->
+                                    <form wire:submit.prevent="buscarImagem"> 
+                                        <label class="custom-file-upload">
+                                            
+                                            <input type="file" wire:model="image_pessoa_treinamento" required>
+                                            Selecionar Ficheiro
+                                            
+                                        </label>
+                                        @error('image_pessoa_treinamento') 
+                                            <span class="error"> {{ $message }} </span> 
+                                        @enderror
+                                        <br><br>
+                                        @if ($image_pessoa_treinamento)
+                                            <img id="imagem-treinamento" src="{{ $image_pessoa_treinamento->temporaryUrl() }}">
+                                        @endif
+                                    </form>
+                                    <!-- Fim :: Buscar Imagem -->
 
                                 </div>
                                 <!-- Fim :: Conteudo Card -->
@@ -84,50 +93,36 @@
                         <!-- Fim :: 1ª Coluna -->
 
                         <!-- Inicio :: 2ª Coluna -->
-                        <div class="col-lg mx-auto m-1">
+                        <div class="col-lg">
 
                             <!-- Inicio :: 2º Card -->
                             <div class="card">
 
                                 <!-- Inicio :: Titulo Card -->
                                 <div class="card-header">
-                                    <h4 class="text">2º Passo: Cadastrar/Treinar nova pessoa</h4>
+                                    <h4 class="text">2º Passo: Cadastrar/Treinar pessoa</h4>
                                 </div>
                                 <!-- Fim :: Titulo Card -->
 
                                 <!-- Inicio :: Conteudo Card -->
-                                <div class="card-body text-black">
+                                <div class="card-body">
 
                                     <!-- Inicio :: Cadastrar e Treinar -->
-                                    <form class="col-lg m-1" wire:submit.prevent="cadastrarPessoa" wire:confirm="Deseja realmente cadastrar essa Pessoa?">   
+                                    <form class="col-lg" wire:submit.prevent="cadastrarPessoa" wire:confirm="Deseja realmente cadastrar essa Pessoa?">   
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">Nome:</span>
                                             <input class="campo-filtro form-control" type="text" placeholder="Nova Pessoa" wire:model="nome_pessoa_cadastro" required>
+                                        </div>      
+                                        <div class="d-grid gap-2 col-4 mx-auto">                  
                                             <button type="submit" class="btn btn-primary" onclick="voltaInicio()"> Cadastrar & Treinar </button>
-                                        </div>                
+                                        </div>          
                                     </form>
                                     <!-- Fim :: Cadastrar e Treinar -->
 
-                                </div>
-                                <!-- Fim :: Conteudo Card -->
-
-                            </div>
-                            <!-- Fim :: 2º Card -->
-
-                            <!-- Inicio :: 3º Card -->
-                            <div class="card mt-3">
-
-                                <!-- Inicio :: Titulo Card -->
-                                <div class="card-header">
-                                    <h4 class="text">2º Passo: Treinar pessoa selecionada</h4>
-                                </div>
-                                <!-- Fim :: Titulo Card -->
-
-                                <!-- Inicio :: Conteudo Card -->
-                                <div class="card-body text-black">
+                                    <br>
 
                                     <!-- Inicio :: Pesquisar Pessoa -->
-                                    <div class="col-lg m-1">
+                                    <div class="col-lg">
                                         <div class="input-group mb-3">                   
                                             <span class="input-group-text">Buscar:</span>
                                             <input class="campo-filtro form-control" type="search" placeholder="Pessoa" wire:model="query_pessoas_cadastro" aria-label="Search" wire:input.debounce.300ms="reiniciarPaginacao">           
@@ -143,7 +138,7 @@
                                                     </td>
                                                     <td class="p-2"> 
                                                         @if ($pessoa->rostos->isNotEmpty())
-                                                            <img class="imagem-pessoa" src="{{ asset('storage/' . $pessoa->rostos[0]->url_rosto) }}" alt={{ $pessoa->nome }}>
+                                                            <img class="imagem-pessoa" src="{{ asset('storage/' . $pessoa->rostos[0]->url_rosto) }}" alt={{ $pessoa->nome }} width="120" height="120">
                                                         @else
                                                             <p>Sem foto disponível</p>
                                                         @endif
@@ -170,8 +165,8 @@
                                     <!-- Fim :: Pesquisar Pessoa -->
 
                                     <!-- Inicio :: Treinar Pessoa -->
-                                    <form class="col-lg mx-auto m-2" wire:submit.prevent="treinarPessoa" wire:confirm="Deseja realmente treinar essa Pessoa?">
-                                        <div class="d-grid gap-2 col-4 mx-auto m-3">                  
+                                    <form class="col-lg" wire:submit.prevent="treinarPessoa" wire:confirm="Deseja realmente treinar essa Pessoa?">
+                                        <div class="d-grid gap-2 col-4 mx-auto">                  
                                             <button type="submit" class="btn btn-primary" onclick="voltaInicio()"> Treinar Selecionado </button>
                                         </div>
                                     </form>
@@ -181,7 +176,7 @@
                                 <!-- Fim :: Conteudo Card -->
 
                             </div>
-                            <!-- Fim :: 3º Card -->
+                            <!-- Fim :: 2º Card -->
 
                         </div>
                         <!-- Fim :: 2ª Coluna -->
@@ -196,6 +191,7 @@
             <!-- Fim :: Card Principal -->
 
         </div>
+        <!-- Fim :: Formulario -->
 
     </main>
     <!-- Fim :: Main -->
