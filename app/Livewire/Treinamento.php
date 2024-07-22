@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use App\Models\Pessoa;
 use App\Models\Rosto;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class Treinamento extends Component
 {
@@ -57,11 +58,13 @@ class Treinamento extends Component
     public function render() {
         $nomeApp = "FotoPlus";  
         $user = auth()->id();
-        $listaPessoas = Pessoa::select(['pessoas.*', 'rostos.url_rosto'])
+
+        $listaPessoas = Pessoa::select('pessoas.*', DB::raw('MIN(rostos.url_rosto) as url_rosto'))
             ->leftJoin('rostos', 'rostos.id_pessoa', '=', 'pessoas.id')
-            ->where('user_id', $user) 
-            ->where('nome', 'like', '%' . $this->query_pessoas_cadastro . '%')
-            ->orderBy('nome')
+            ->where('pessoas.user_id', $user) 
+            ->where('pessoas.nome', 'like', '%' . $this->query_pessoas_cadastro . '%')
+            ->groupBy('pessoas.id')
+            ->orderBy('pessoas.nome')
             ->paginate(10);
 
         return view('livewire.treinamento', compact('nomeApp', 'listaPessoas'));
@@ -71,7 +74,7 @@ class Treinamento extends Component
     public function mostrarLogMaximizado() {
         try {
             if (file_exists($this->caminho_arquivo_log)) {
-                $texto_completo_log = implode('\n', file($this->caminho_arquivo_log));
+                $texto_completo_log = implode(' | ', file($this->caminho_arquivo_log));
                 $this->nome_botao_log = 'Leia menos'; 
                 session()->flash('log', $texto_completo_log);
             } else {
@@ -79,7 +82,7 @@ class Treinamento extends Component
             }  
                     
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMaximizado". Erro: ' . $e->getMessage());
             return redirect()->route('treinamento'); 
         }
     }   
@@ -97,7 +100,7 @@ class Treinamento extends Component
             }  
             
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMinimizado". Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
         }
     }   
@@ -112,7 +115,7 @@ class Treinamento extends Component
             }
             
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
         }
     } 
@@ -123,7 +126,7 @@ class Treinamento extends Component
             $this->resetPage();
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "reiniciarPaginacao". Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
         }
     }   
@@ -141,7 +144,7 @@ class Treinamento extends Component
             //session()->flash('debug', 'Imagem Carregada: ' .$this->image_pessoa_treinamento);
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "buscarImagem". Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
         }
     }
@@ -178,7 +181,7 @@ class Treinamento extends Component
             $this->treinarPessoa();
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "cadastrarPessoa". Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
         } 
     }
@@ -241,7 +244,7 @@ class Treinamento extends Component
             return redirect()->route('treinamento');    
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "treinarPessoa" Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
         } 
     }

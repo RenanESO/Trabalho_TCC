@@ -131,64 +131,75 @@
                             <!-- Inicio :: Conteudo Card -->
                             <div class="card-body">
 
-                                <!-- Inicio :: Filtrar Data -->      
-                                <div class="mb-4">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" wire:click="alterarStatusData">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja organizar a(s) foto(s) por data </label>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="input-group">
-                                                <span class="input-group-text"> Periodo de Data: </span>
-                                                <input class="form-control date-mask" type="date" placeholder="Data Inicial" wire:model="filtro_data_inicial" {{ $habilitar_data }}>
-                                                <input class="form-control date-mask" type="date" placeholder="Data Final" wire:model="filtro_data_final" {{ $habilitar_data }}>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Fim :: Filtrar Data -->
 
-                                <!-- Inicio :: Filtrar Copiar|Recortar -->    
-                                <div class="mb-4">  
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" wire:click="alterarStatusCopiarColar">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja copiar ou recortar a(s) foto(s) </label>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="input-group">
-                                                <span class="input-group-text"> Copiar ou recortar a(s) foto(s): </span>
-                                                <select class="form-select" wire:model="filtro_copiar_recortar" {{ $habilitar_copiar_recortar }}>
-                                                    <option value="0"> Copiar </option>
-                                                    <option value="1"> Recortar </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Fim :: Filtrar Copiar|Recortar -->
+                                <div class="row">
 
-                                <!-- Inicio :: Filtrar Aumentar Resolucao -->      
-                                <div class="mb-4">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" wire:click="alterarStatusResolucao">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja alterar a resolução da(s) foto(s) </label>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="input-group">
-                                                <span class="input-group-text"> Resolução da(s) foto(s) aumentada: </span>
-                                                <select class="form-select" wire:model="filtro_resolucao" {{ $habilitar_resolucao }}>
-                                                    <option value="1"> 1x </option>
-                                                    <option value="2"> 2x </option>
-                                                    <option value="3"> 3x </option>
-                                                </select>
+
+                                    <div class="col-md-7">
+                                        <!-- Inicio :: Filtrar Data -->      
+                                        <div class="mb-4">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" wire:click="alterarStatusData">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja organizar a(s) foto(s) por data </label>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"> Periodo de Data: </span>
+                                                        <input class="form-control date-mask" type="date" placeholder="Data Inicial" wire:model="filtro_data_inicial" {{ $habilitar_data }}>
+                                                        <input class="form-control date-mask" type="date" placeholder="Data Final" wire:model="filtro_data_final" {{ $habilitar_data }}>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <!-- Fim :: Filtrar Data -->
+
+                                        <!-- Inicio :: Filtrar Copiar|Recortar -->    
+                                        <div class="mb-4">  
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" wire:click="alterarStatusCopiarColar">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja copiar ou recortar a(s) foto(s) </label>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"> Copiar ou recortar a(s) foto(s): </span>
+                                                        <select class="form-select" wire:model="filtro_copiar_recortar" {{ $habilitar_copiar_recortar }}>
+                                                            <option value="0"> Copiar </option>
+                                                            <option value="1"> Recortar </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fim :: Filtrar Copiar|Recortar -->
+
+                                        <!-- Inicio :: Filtrar Aumentar Resolucao -->      
+                                        <div class="mb-4">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" wire:click="alterarStatusResolucao">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja alterar a resolução da(s) foto(s) </label>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"> Resolução da(s) foto(s) aumentada: </span>
+                                                        <select class="form-select" wire:model="filtro_resolucao" {{ $habilitar_resolucao }}>
+                                                            <option value="1"> 1x </option>
+                                                            <option value="2"> 2x </option>
+                                                            <option value="3"> 3x </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fim :: Filtrar Aumentar Resolucao -->
+
                                     </div>
+
+
                                 </div>
-                                <!-- Fim :: Filtrar Aumentar Resolucao -->
+
 
                                 <!-- Inicio :: Filtrar Pessoa -->
                                 <br>
@@ -241,8 +252,8 @@
                 <div class="row">
 
                     <!-- Inicio :: Botao Organizar -->
-                    <form class="col-lg mx-auto m-2" wire:submit.prevent="organizar" wire:confirm="Deseja realmente organizar repositorio?">
-                        <div class="d-grid gap-2 col-4 mx-auto m-3">                  
+                    <form class="col-lg" wire:submit.prevent="organizar" wire:confirm="Deseja realmente organizar repositorio?">
+                        <div class="d-grid gap-2 col-4 mx-auto mt-3">                  
                             <button type="submit" class="btn btn-primary" onclick="voltaInicio()"> Organizar </button>
                         </div>
                     </form>

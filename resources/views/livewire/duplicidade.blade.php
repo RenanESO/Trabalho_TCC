@@ -125,50 +125,55 @@
 
                             <!-- Inicio :: Titulo Card -->
                             <div class="card-header">
-                                <h4 class="text"> 2º Passo: Configure o(s) filtro(s) </h4>
+                                <h4 class="text"> 3º Passo: Configure o(s) filtro(s) </h4>
                             </div>
                             <!-- Fim :: Titulo Card -->
 
                             <!-- Inicio :: Conteudo Card -->
                             <div class="card-body">
 
-                                <!-- Inicio :: Filtrar Data -->      
-                                <div class="mb-4">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" wire:click="alterarStatusData">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja organizar a(s) foto(s) por data </label>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <div class="input-group">
-                                                <span class="input-group-text"> Periodo de Data: </span>
-                                                <input class="form-control date-mask" type="date" placeholder="Data Inicial" wire:model="filtro_data_inicial" {{ $habilitar_data }}>
-                                                <input class="form-control date-mask" type="date" placeholder="Data Final" wire:model="filtro_data_final" {{ $habilitar_data }}>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Fim :: Filtrar Data -->
 
-                                <!-- Inicio :: Filtrar Copiar|Recortar -->    
-                                <div class="mb-4">  
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" wire:click="alterarStatusCopiarColar">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja copiar ou recortar a(s) foto(s) </label>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="input-group">
-                                                <span class="input-group-text"> Copiar ou recortar a(s) foto(s): </span>
-                                                <select class="form-select" wire:model="filtro_copiar_recortar" {{ $habilitar_copiar_recortar }}>
-                                                    <option value="0"> Copiar </option>
-                                                    <option value="1"> Recortar </option>
-                                                </select>
+                                <div class="col-md-7">
+
+                                    <!-- Inicio :: Filtrar Data -->      
+                                    <div class="mb-4">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" wire:click="alterarStatusData">
+                                            <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja organizar a(s) foto(s) por data </label>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <div class="input-group">
+                                                    <span class="input-group-text"> Periodo de Data: </span>
+                                                    <input class="form-control date-mask" type="date" placeholder="Data Inicial" wire:model="filtro_data_inicial" {{ $habilitar_data }}>
+                                                    <input class="form-control date-mask" type="date" placeholder="Data Final" wire:model="filtro_data_final" {{ $habilitar_data }}>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Fim :: Filtrar Data -->
+
+                                    <!-- Inicio :: Filtrar Copiar|Recortar -->    
+                                    <div class="mb-4">  
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" wire:click="alterarStatusCopiarColar">
+                                            <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja copiar ou recortar a(s) foto(s) </label>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg">
+                                                <div class="input-group">
+                                                    <span class="input-group-text"> Copiar ou recortar a(s) foto(s): </span>
+                                                    <select class="form-select" wire:model="filtro_copiar_recortar" {{ $habilitar_copiar_recortar }}>
+                                                        <option value="0"> Copiar </option>
+                                                        <option value="1"> Recortar </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Fim :: Filtrar Copiar|Recortar -->
+
                                 </div>
-                                <!-- Fim :: Filtrar Copiar|Recortar -->
 
                             </div>
                             <!-- Fim :: Conteudo Card -->
@@ -190,7 +195,7 @@
 
                         <!-- Inicio :: Botao Verificar Duplicidade -->
                         <form wire:submit.prevent="verificaDuplicidade" wire:confirm="Deseja realmente continuar?">
-                            <div class="d-grid gap-2 col-4 mx-auto m-3">                  
+                            <div class="d-grid gap-2 col-4 mx-auto mt-3">                  
                                 <button type="submit" class="btn btn-primary" onclick="voltaInicio()"> Verificar </button>
                             </div>
                         </form>

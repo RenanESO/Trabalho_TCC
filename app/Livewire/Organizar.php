@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 
 use App\Models\Pessoa;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class Organizar extends Component
 {
@@ -73,15 +74,17 @@ class Organizar extends Component
     public function render() {
         $nomeApp = "FotoPlus"; 
         $user = auth()->id(); 
-        $listaPessoas = Pessoa::select(['pessoas.*', 'rostos.url_rosto'])
-        ->leftJoin('rostos', 'rostos.id_pessoa', '=', 'pessoas.id')
-        ->where('user_id', $user) 
-        ->where('nome', 'like', '%' .$this->query_filtro_pessoa .'%')
-        ->orderBy('nome')
-        ->paginate(10);
-
+    
+        $listaPessoas = Pessoa::select('pessoas.*', DB::raw('MIN(rostos.url_rosto) as url_rosto'))
+            ->leftJoin('rostos', 'rostos.id_pessoa', '=', 'pessoas.id')
+            ->where('pessoas.user_id', $user) 
+            ->where('pessoas.nome', 'like', '%' . $this->query_filtro_pessoa . '%')
+            ->groupBy('pessoas.id')
+            ->orderBy('pessoas.nome')
+            ->paginate(10);
+    
         return view('livewire.organizar', compact('nomeApp', 'listaPessoas'));
-    }
+    }    
 
     // Função responsavel em mostrar a mensagem do arquivo log maximizado.
     public function mostrarLogMaximizado() {
