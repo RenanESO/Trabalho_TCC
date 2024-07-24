@@ -11,21 +11,26 @@
             <!-- Fim :: Tela Cinza Carregamento -->
 
             <!-- Inicio :: Carregamento -->
-            <div class="alert alert-primary text-center shadow-sm p-3 mt-4 mx-4 rounded" wire:loading.grid wire:target="verificaDuplicidade">
-                <i class="fas fa-spinner fa-spin"></i> Aguarde Carregando... 
+            <div class="alert alert-primary text-center shadow-sm p-3 mt-4 rounded" wire:loading.grid wire:target="verificaDuplicidade">
+                <i class="fas fa-spinner fa-spin"></i> <span class="alert-text"> Aguarde Carregando... </span>
             </div>
             <!-- Fim :: Carregamento -->
 
             <!-- Inicio :: Alerta -->
             @if (session('log'))
-                <div class="alert alert-light text-center shadow-sm p-3 mt-4 mx-4 rounded">
-                    <i class="fa fa-cog"></i> {{ session('log') }} <br><br>
-                    <button type="button" class="btn btn-secondary" wire:click="mostrarLog"> {{ $nome_botao_log }} </button>
+                <div class="alert alert-light text-center shadow-sm p-3 mt-4 rounded">
+                    <i class="fa fa-cog"></i> <span class="alert-text"> {{ session('log') }} </span> <br><br>
+                    <button type="button" class="btn btn-secondary" wire:click="alterarTamanhoLog"> {{ $nome_botao_log }} </button>
                 </div>
             @endif
             @if (session('error'))
-                <div class="alert alert-danger text-center shadow-sm p-3 mt-4 mx-4 rounded">
-                    <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+                <div class="alert alert-danger text-center shadow-sm p-3 mt-4 rounded">
+                    <i class="fas fa-exclamation-circle"></i> <span class="alert-text"> {{ session('error') }} </span>
+                </div>
+            @endif
+            @if (session('debug'))
+                <div class="alert alert-primary text-center shadow-sm p-3 mt-4 rounded">
+                    <i class="fas fa-exclamation-circle"></i> <span class="alert-text"> {{ session('debug') }} </span>
                 </div>
             @endif
             <!-- Fim :: Alerta -->

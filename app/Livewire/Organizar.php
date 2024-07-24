@@ -54,8 +54,8 @@ class Organizar extends Component
         $this->query_filtro_pessoa = '';
 
         // Definindo as variaveis dos filtro para realizar a rotina de organizar.
-        $this->filtro_caminho_origem = storage_path('app\\public\\fotos'); // Local da pasta no GoogleDrive.
-        $this->filtro_caminho_destino = storage_path('app\\public\\resultado'); // Local da pasta no GoogleDrive.
+        $this->filtro_caminho_origem = storage_path('app\\public\\' .$this->login_id_usuario .'\\fotos'); // Local da pasta no GoogleDrive.
+        $this->filtro_caminho_destino = storage_path('app\\public\\' .$this->login_id_usuario .'\\resultado'); // Local da pasta no GoogleDrive.
         $this->filtro_data_inicial = now()->toDateString();
         $this->filtro_data_final = now()->toDateString();
         $this->filtro_pessoa_organizar = '';
@@ -78,7 +78,7 @@ class Organizar extends Component
         $listaPessoas = Pessoa::select('pessoas.*', DB::raw('MIN(rostos.url_rosto) as url_rosto'))
             ->leftJoin('rostos', 'rostos.id_pessoa', '=', 'pessoas.id')
             ->where('pessoas.user_id', $user) 
-            ->where('pessoas.nome', 'like', '%' . $this->query_filtro_pessoa . '%')
+            ->where('pessoas.nome', 'like', '%' .$this->query_filtro_pessoa .'%')
             ->groupBy('pessoas.id')
             ->orderBy('pessoas.nome')
             ->paginate(10);
@@ -90,7 +90,7 @@ class Organizar extends Component
     public function mostrarLogMaximizado() {
         try {
             if (file_exists($this->caminho_arquivo_log)) {
-                $texto_completo_log = implode('\n', file($this->caminho_arquivo_log));
+                $texto_completo_log = implode(' | ', file($this->caminho_arquivo_log));
                 $this->nome_botao_log = 'Leia menos'; 
                 session()->flash('log', $texto_completo_log);
             } else {
@@ -98,7 +98,7 @@ class Organizar extends Component
             }  
                     
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMaximizado". Erro: ' .$e->getMessage());
             return redirect()->route('organizar'); 
         }
     }   
@@ -116,7 +116,7 @@ class Organizar extends Component
             }  
             
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMinimizado". Erro: ' .$e->getMessage());
             return redirect()->route('organizar');   
         }
     }   
@@ -131,7 +131,7 @@ class Organizar extends Component
             }
             
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' .$e->getMessage());
             return redirect()->route('organizar'); 
         }
     }   
@@ -142,7 +142,7 @@ class Organizar extends Component
             $this->resetPage();
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "reiniciarPaginacao". Erro: ' .$e->getMessage());
             return redirect()->route('organizar'); 
         }
     }   
@@ -158,7 +158,7 @@ class Organizar extends Component
             }
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarStatusData". Erro: ' .$e->getMessage());
             return redirect()->route('organizar');   
         }
     }    
@@ -174,7 +174,7 @@ class Organizar extends Component
             }
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarStatusCopiarColar". Erro: ' .$e->getMessage());
             return redirect()->route('organizar');  
         }
     }  
@@ -190,7 +190,7 @@ class Organizar extends Component
             }
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarStatusResolucao". Erro: ' .$e->getMessage());
             return redirect()->route('organizar'); 
         }
     }  
@@ -249,7 +249,7 @@ class Organizar extends Component
             return redirect()->route('organizar');   
         
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "organizar". Erro: ' .$e->getMessage());
             return redirect()->route('organizar');       
         }
     }  

@@ -42,6 +42,12 @@ footer {
     padding: 2.5rem;
 }
 
+.alert-text {
+    word-wrap: break-word; /* Quebra de linha automática */
+    word-break: break-all; /* Quebra palavras longas */
+    white-space: pre-wrap; /* Preserva espaços e quebras de linha */
+}
+
 .campo-filtro {
     min-width: 10rem !important;
     margin-right: 1rem !important;

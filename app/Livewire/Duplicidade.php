@@ -36,11 +36,11 @@ class Duplicidade extends Component
         // Definindo as variaveis com os caminhos dos arquivos e diretórios.
         $this->caminho_arquivo_log = storage_path('app\\public\\' .$this->login_id_usuario .'\\log.txt');
         $this->caminho_arquivo_pickle = storage_path('app\\public\\' .$this->login_id_usuario .'\\indicesTreinamento.pickle');
-        $this->caminho_arquivo_npy = storage_path('app\\public\\' .$this->login_id_usuario .'\\fotosTreinamento.npy');
+        $this->caminho_arquivo_npy = storage_path('app\\public\\' .$this->login_id_usuario .'\\fotosTreinamento.npy'); 
 
         // Definindo as variaveis para realizar a rotina de duplicidade.
-        $this->filtro_caminho_origem = storage_path('app\\public\\fotos'); // Local da pasta no GoogleDrive.
-        $this->filtro_caminho_destino = storage_path('app\\public\\resultado'); // Local da pasta no GoogleDrive.
+        $this->filtro_caminho_origem = storage_path('app\\public\\' .$this->login_id_usuario .'\\fotos'); // Local da pasta no GoogleDrive.
+        $this->filtro_caminho_destino = storage_path('app\\public\\' .$this->login_id_usuario .'\\resultado'); // Local da pasta no GoogleDrive.
         $this->filtro_data_inicial = now()->toDateString();
         $this->filtro_data_final = now()->toDateString();
         $this->filtro_copiar_recortar = '';
@@ -64,7 +64,7 @@ class Duplicidade extends Component
     public function mostrarLogMaximizado() {
         try {
             if (file_exists($this->caminho_arquivo_log)) {
-                $texto_completo_log = implode('\n', file($this->caminho_arquivo_log));
+                $texto_completo_log = implode(' | ', file($this->caminho_arquivo_log));
                 $this->nome_botao_log = 'Leia menos'; 
                 session()->flash('log', $texto_completo_log);
             } else {
@@ -72,7 +72,7 @@ class Duplicidade extends Component
             }  
                     
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMaximizado". Erro: ' .$e->getMessage());
             return redirect()->route('duplicidade');   
         }
     }   
@@ -90,7 +90,7 @@ class Duplicidade extends Component
             }  
             
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMinimizado". Erro: ' .$e->getMessage());
             return redirect()->route('duplicidade');    
         }
     }   
@@ -105,7 +105,7 @@ class Duplicidade extends Component
             }
             
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e);
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' .$e);
             return redirect('organizar');   
         }
     }    
@@ -121,7 +121,7 @@ class Duplicidade extends Component
             }
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarStatusData". Erro: ' .$e->getMessage());
             return redirect()->route('duplicidade');   
         }
     }    
@@ -137,7 +137,7 @@ class Duplicidade extends Component
             }
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarStatusCopiarColar". Erro: ' .$e->getMessage());
             return redirect()->route('duplicidade');    
         }
     }  
@@ -192,7 +192,7 @@ class Duplicidade extends Component
             return redirect()->route('duplicidade');   
         
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno. Erro: ' .$e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "verificaDuplicidade". Erro: ' .$e->getMessage());
             return redirect()->route('duplicidade');   
         }
     }  
