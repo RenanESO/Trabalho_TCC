@@ -2,17 +2,17 @@
 
 namespace App\Livewire;
 
+use Google\Client;
+use Google\Service\Drive;
 use Livewire\Component;
 
-class Home extends Component
-{
-    public function render()
-    {
+class Home extends Component {
+
+    public function render() {
         return view('livewire.home');
     }
 
-/*    public function mount()
-    {
+    public function mount() {
         $clientId = getenv('GOOGLE_CLIENT_ID');
         $clientSecret = getenv('GOOGLE_CLIENT_SECRET');
         $scope = getenv('GOOGLE_DRIVE_SCOPE');
@@ -25,12 +25,12 @@ class Home extends Component
 
         $authUrl = $client->createAuthUrl();
         if (session('access_token')) {
-        $client->setAccessToken(session('access_token'));
-        $drive = new Drive($client);
-        $files = $drive->files->listFiles(array())->getFiles();
+            $client->setAccessToken(session('access_token'));
+            $drive = new Drive($client);
+            $files = $drive->files->listFiles(array())->getFiles();
             dd($files);
         } else {
             return redirect($authUrl);
         }
-    } */
+    } 
 }
