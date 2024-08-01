@@ -42,6 +42,42 @@ footer {
     padding: 2.5rem;
 }
 
+/*  -----------------------   */
+
+.list-view div {
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.file-item .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.file-item button,
+.file-item span {
+    flex-grow: 1;
+}
+
+.file-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.file-item a:hover {
+    text-decoration: underline;
+}
+
+
+/*  -----------------------   */
+
 .alert-text {
     word-wrap: break-word; /* Quebra de linha automática */
     word-break: break-all; /* Quebra palavras longas */

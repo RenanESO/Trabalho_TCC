@@ -4,42 +4,42 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Google\Client;
-use Google\Auth\Credentials;
 use Google\Service\Drive;
 
 class AuthGoogleCallback extends Component {
 
   public $authUrl;
 
-  public function mount() {
-    $clientId = getenv('GOOGLE_CLIENT_ID');
-    $clientSecret = getenv('GOOGLE_CLIENT_SECRET');
-    $scope = getenv('GOOGLE_DRIVE_SCOPE');
-
-    $client = new Client();
-    $client->setClientId($clientId);
-    $client->setClientSecret($clientSecret);
-    $client->setRedirectUri('http://127.0.0.1:8000/oauth-google-callback');
-    $client->setScopes($scope);
+  public function mount()
+  {
+    $cliente = $this->getClienteGoogle();
 
     if (!request('code')) {
       $state = bin2hex(random_bytes(16));
-
-      $client->setState($state);
+      $cliente->setState($state);
       session(['state' => $state]);
-      $authUrl = $client->createAuthUrl();
+      $authUrl = $cliente->createAuthUrl();
       return redirect($authUrl);
     } else {
-      $client->fetchAccessTokenWithAuthCode(request('code'));
-      session(['access_token' => $client->getAccessToken()]);
-
-      $redirect_uri = 'http://127.0.0.1:8000/home';
-      return redirect($redirect_uri);
+      $cliente->fetchAccessTokenWithAuthCode(request('code'));
+      session(['access_token' => $cliente->getAccessToken()]);
+      return redirect()->route('home');  
     }
+  }
+
+  protected function getClienteGoogle()
+  {
+      $cliente = new Client();
+      $cliente->setAuthConfig(storage_path('app\\client_secret_497125052021-qheru49cjtj88353ta3d5bq6vf0ffk0o.apps.googleusercontent.com.json'));
+      $cliente->addScope(Drive::DRIVE);
+      $cliente->setRedirectUri('http://127.0.0.1:8000/oauth-google-callback');
+      $guzzleClient = new \GuzzleHttp\Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false, ), ));
+      $cliente->setHttpClient($guzzleClient);
+      return $cliente;
   }
 
   public function render()
   {
-    //return view('livewire.auth-google-callback');
+    return view('livewire.auth-google-callback');
   }
 }

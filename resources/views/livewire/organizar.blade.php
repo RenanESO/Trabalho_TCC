@@ -65,6 +65,10 @@
                             <!-- Inicio :: Conteudo Card -->
                             <div class="card-body">
 
+                                <!-- Inicio :: Botão para abrir o popup -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pastaDownloadModal"> Selecione a Pasta </button>
+                                <!-- Fim :: Botão para abrir o popup -->
+
                                 <!-- Inicio :: Caminho Origem -->
                                 <div class="input-group mb-3">
                                     <input type="file" wire:model="filtro_caminho_origem" required>
@@ -80,36 +84,6 @@
                     </div>
                     <!-- Fim :: 1ª Coluna -->
 
-                    <!-- Inicio :: 2ª Coluna -->
-                    <div class="col-lg mb-3">  
-
-                        <!-- Inicio :: 2º Card -->
-                        <div class="card">
-
-                            <!-- Inicio :: Titulo Card -->
-                            <div class="card-header">
-                                <h4 class="text"> 2º Passo: Definir local de destino do conjunto das fotos </h4>
-                            </div>
-                            <!-- Fim :: Titulo Card -->
-
-                            <!-- Inicio :: Conteudo Card -->
-                            <div class="card-body">
-
-                                <!-- Inicio :: Caminho Destino -->
-                                <div class="input-group mb-3">
-                                    <input type="file" wire:model="filtro_caminho_destino" required>
-                                </div>
-                                <!-- Fim :: Caminho Destino -->
-
-                            </div>
-                            <!-- Fim :: Conteudo Card -->
-
-                        </div>
-                        <!-- Fim :: 2º Card -->
-
-                    </div>
-                    <!-- Fim :: 2ª Coluna -->
-
                 </div>
                 <!-- Fim :: 1ª Linha -->
 
@@ -124,7 +98,7 @@
 
                             <!-- Inicio :: Titulo Card -->
                             <div class="card-header">
-                                <h4 class="text"> 3º Passo: Configure o(s) filtro(s) </h4>
+                                <h4 class="text"> 2º Passo: Configure o(s) filtro(s) </h4>
                             </div>
                             <!-- Fim :: Titulo Card -->
 
@@ -270,6 +244,30 @@
 
     </main>
     <!-- Fim :: Main -->
+
+    <!-- Inicio :: Modal Pasta Download -->
+    <div class="modal fade" id="pastaDownloadModal" tabindex="-1" aria-labelledby="pastaDownloadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pastaDownloadModalLabel"> Selecione a Pasta </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- Include o conteúdo do Blade pasta-download-servidor.blade aqui -->                 
+                    <livewire:pasta-download-servidor />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Fechar </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Fim :: Modal Pasta Download -->
 
 </div>
 
