@@ -4,7 +4,7 @@
             <div class="file-item">
                 @if ($arquivo['tipoMime'] == 'application/vnd.google-apps.folder')
                     <img src="{{ asset('imagens/imgPasta.png') }}" alt="Folder" class="icon">
-                    <button wire:click="alterarPasta('{{ $arquivo['id'] }}')">{{ $arquivo['nome'] }}</button>
+                    <button class="btn btn-light" wire:click="alterarPasta('{{ $arquivo['id'] }}')">{{ $arquivo['nome'] }}</button>
                 @else
                     <img src="{{ asset('imagens/imgImagem.png') }}" alt="File" class="icon">
                     <span>{{ $arquivo['nome'] }}</span>
