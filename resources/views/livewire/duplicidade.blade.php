@@ -47,75 +47,58 @@
                 <!-- Inicio :: Conteudo Card -->
                 <div class="card-body">
 
-                <!-- Inicio :: 1ª Linha -->
-                <div class="row">
+                 <!-- Inicio :: 1ª Linha -->
+                 <div class="row">
 
-                    <!-- Inicio :: 1ª Coluna -->
-                    <div class="col-lg mb-3"> 
-                        
-                        <!-- Inicio :: 1º Card -->
-                        <div class="card">
+                    <!-- Inicio :: 1º Card -->
+                    <div class="card">
 
-                            <!-- Inicio :: Titulo Card -->
-                            <div class="card-header">
-                                <h4 class="text"> 1º Passo: Definir local de origem do conjunto das fotos </h4>
-                            </div>
-                            <!-- Fim :: Titulo Card -->
+                        <!-- Inicio :: Titulo Card -->
+                        <div class="card-header">
+                            <h4 class="text"> 1º Passo: Definir local de origem do conjunto das fotos </h4>
+                        </div>
+                        <!-- Fim :: Titulo Card -->
 
-                            <!-- Inicio :: Conteudo Card -->
-                            <div class="card-body">
+                        <!-- Inicio :: Conteudo Card -->
+                        <div class="card-body">
 
-                                <!-- Inicio :: Caminho Origem 
-                                <form wire:submit.prevent="uploadFotos">
-                                    <input type="file" wire:model="filtro_caminho_origem" required multiple>
-                                </form>
-                                 Fim :: Caminho Origem -->
+                            <div class="row">
 
-                                <!-- Inicio :: Caminho Destino -->
-                                <div class="input-group mb-3">
-                                    <input type="file" wire:model="filtro_caminho_origem" required>
+                                <!-- Inicio :: Botão para abrir o popup -->
+                                <div class="col-lg">                                        
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pastaDownloadModal"> Selecione a Pasta </button>                                      
                                 </div>
-                                <!-- Fim :: Caminho Destino -->
+                                <!-- Fim :: Botão para abrir o popup -->
+
+                                <!-- Inicio :: Caminho Origem -->
+                                <div class="col-lg">  
+                                    @if(session('caminhoPastaGoogleDrive'))
+                                        <div class="alert alert-primary text-center rounded">
+                                            <i class="fas fa-exclamation-circle"></i> <span class="alert-text"> Pasta selecionada </span>
+                                        </div>
+                                    @else
+                                        <div class="alert alert-danger text-center rounded">
+                                            <i class="fas fa-exclamation-circle"></i> <span class="alert-text"> Nenhuma pasta selecionada </span>
+                                        </div>                                
+                                    @endif                                                          
+                                </div>
+                                
+                                <!-- Inicio :: Caminho Origem -->
+
+                                <!-- Fim :: Coluna Vazia -->
+                                <div class="col-lg"> 
+
+                                </div>
+                                <!-- Fim :: Coluna Vazia -->
 
                             </div>
-                            <!-- Fim :: Conteudo Card -->
 
                         </div>
-                        <!-- Fim :: 1º Card -->
+                        <!-- Fim :: Conteudo Card -->
 
                     </div>
-                    <!-- Fim :: 1ª Coluna -->
+                    <!-- Fim :: 1º Card -->
 
-                    <!-- Inicio :: 2ª Coluna -->
-                    <div class="col-lg mb-3">  
-
-                        <!-- Inicio :: 2º Card -->
-                        <div class="card">
-
-                            <!-- Inicio :: Titulo Card -->
-                            <div class="card-header">
-                                <h4 class="text"> 2º Passo: Definir local de destino do conjunto das fotos </h4>
-                            </div>
-                            <!-- Fim :: Titulo Card -->
-
-                            <!-- Inicio :: Conteudo Card -->
-                            <div class="card-body">
-
-                                <!-- Inicio :: Caminho Destino -->
-                                <div class="input-group mb-3">
-                                    <input type="file" wire:model="filtro_caminho_destino" required>
-                                </div>
-                                <!-- Fim :: Caminho Destino -->
-
-                            </div>
-                            <!-- Fim :: Conteudo Card -->
-
-                        </div>
-                        <!-- Fim :: 2º Card -->
-
-                    </div>
-                    <!-- Fim :: 2ª Coluna -->
-                        
                 </div>
                 <!-- Fim :: 1ª Linha -->
 
@@ -130,7 +113,7 @@
 
                             <!-- Inicio :: Titulo Card -->
                             <div class="card-header">
-                                <h4 class="text"> 3º Passo: Configure o(s) filtro(s) </h4>
+                                <h4 class="text"> 2º Passo: Configure o(s) filtro(s) </h4>
                             </div>
                             <!-- Fim :: Titulo Card -->
 
@@ -221,4 +204,36 @@
     </main>
     <!-- Fim :: Main -->
 
+    <!-- Inicio :: Modal Pasta Download -->
+    <div class="modal fade" id="pastaDownloadModal" tabindex="-1" aria-labelledby="pastaDownloadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pastaDownloadModalLabel"> Selecione a Pasta </h5>
+                </div>
+
+                <div class="modal-body">
+                    <!-- Include o conteúdo do Blade pasta-download-servidor.blade aqui -->                 
+                    <livewire:pasta-download-servidor retonarRota="duplicidade" />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Fechar </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Fim :: Modal Pasta Download -->
+
 </div>
+
+<script>
+    function voltaInicio() {
+        var element = document.getElementById("inicio");
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
+    }
+</script>

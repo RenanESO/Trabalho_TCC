@@ -9,6 +9,7 @@ use App\Models\Pessoa;
 use App\Models\Rosto;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class Treinamento extends Component
 {
@@ -28,6 +29,7 @@ class Treinamento extends Component
     public $image_pessoa_treinamento;
     public $query_pessoas_cadastro;
     public $nome_botao_log; 
+    public $imagePath;
 
     // Função construtora da pagina no blade "Treinamento".
     public function mount() {
@@ -134,6 +136,28 @@ class Treinamento extends Component
     // Função que abre o explorador de arquivo para buscar de uma imagem de rosto dentro da maquina do usuario.
     public function buscarImagem() {
         try {
+            session()->flash('debug', '1');  
+
+            $this->validate([
+                'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg,gif|min:1|max:2048'
+            ]);
+    
+            $caminhoTemporarioUsuario = $this->login_id_usuario . '/uploads';
+            $path = $this->image_pessoa_treinamento->store('public/' .$caminhoTemporarioUsuario);
+
+            dd($path);
+    
+            // Ajusta o caminho para ser acessível publicamente
+            $this->imagePath = Storage::url($path);
+    
+        } catch (Exception $e) {
+            session()->flash('error', 'Ocorreu um erro interno, rotina "buscarImagem". Erro: ' . $e->getMessage());
+            return redirect()->route('treinamento');
+        }
+    }    
+     
+    /*public function buscarImagem() {
+        try {
             // Adapte as regras de validação conforme necessário.
             $this->validate([        
                 'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg,gif|min:1|max:2048'
@@ -147,7 +171,7 @@ class Treinamento extends Component
             session()->flash('error', 'Ocorreu um erro interno, rotina "buscarImagem". Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
         }
-    }
+    }*/
 
     // Função que realiza o cadastro de uma nova pessoa e rosto referente a pessoa cadastrada. 
     public function cadastrarPessoa() {
@@ -247,5 +271,16 @@ class Treinamento extends Component
             session()->flash('error', 'Ocorreu um erro interno, rotina "treinarPessoa" Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
         } 
+    }
+
+    public function unmount() {
+        try {
+            // Caminho da pasta temporária que você deseja limpar
+            $caminhoTemporario = storage_path('app\\public\\' .$this->login_id_usuario);
+            Storage::deleteDirectory($caminhoTemporario);
+            
+        } catch (Exception $e) {
+            session()->flash('error', 'Ocorreu um erro ao limpar a pasta temporária: ' . $e->getMessage());
+        }
     }
 }

@@ -65,15 +65,36 @@
                             <!-- Inicio :: Conteudo Card -->
                             <div class="card-body">
 
-                                <!-- Inicio :: Botão para abrir o popup -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pastaDownloadModal"> Selecione a Pasta </button>
-                                <!-- Fim :: Botão para abrir o popup -->
+                                <div class="row">
 
-                                <!-- Inicio :: Caminho Origem -->
-                                <div class="input-group mb-3">
-                                    <input type="file" wire:model="filtro_caminho_origem" required>
+                                    <!-- Inicio :: Botão para abrir o popup -->
+                                    <div class="col-lg">                                        
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pastaDownloadModal"> Selecione a Pasta </button>                                      
+                                    </div>
+                                    <!-- Fim :: Botão para abrir o popup -->
+
+                                    <!-- Inicio :: Caminho Origem -->
+                                    <div class="col-lg">  
+                                        @if(session('caminhoPastaGoogleDrive'))
+                                            <div class="alert alert-primary text-center rounded">
+                                                <i class="fas fa-exclamation-circle"></i> <span class="alert-text"> Pasta selecionada </span>
+                                            </div>
+                                        @else
+                                            <div class="alert alert-danger text-center rounded">
+                                                <i class="fas fa-exclamation-circle"></i> <span class="alert-text"> Nenhuma pasta selecionada </span>
+                                            </div>                                
+                                        @endif                                                          
+                                    </div>
+                                    
+                                    <!-- Inicio :: Caminho Origem -->
+
+                                    <!-- Fim :: Coluna Vazia -->
+                                    <div class="col-lg"> 
+
+                                    </div>
+                                    <!-- Fim :: Coluna Vazia -->
+
                                 </div>
-                                <!-- Fim :: Caminho Origem -->
 
                             </div>
                             <!-- Fim :: Conteudo Card -->
@@ -252,12 +273,11 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="pastaDownloadModalLabel"> Selecione a Pasta </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
                     <!-- Include o conteúdo do Blade pasta-download-servidor.blade aqui -->                 
-                    <livewire:pasta-download-servidor />
+                    <livewire:pasta-download-servidor retonarRota="organizar" />
                 </div>
 
                 <div class="modal-footer">

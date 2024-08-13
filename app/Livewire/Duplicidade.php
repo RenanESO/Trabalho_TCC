@@ -2,10 +2,13 @@
 
 namespace App\Livewire;
 
-use Exception;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Google\Client;
+use Google\Service\Drive;
 use Livewire\Component;
+use Exception;
 
 class Duplicidade extends Component
 { 
@@ -39,7 +42,7 @@ class Duplicidade extends Component
         $this->caminho_arquivo_npy = storage_path('app\\public\\' .$this->login_id_usuario .'\\fotosTreinamento.npy'); 
 
         // Definindo as variaveis para realizar a rotina de duplicidade.
-        $this->filtro_caminho_origem = storage_path('app\\public\\' .$this->login_id_usuario .'\\fotos'); // Local da pasta no GoogleDrive.
+        $this->filtro_caminho_origem = storage_path('app\\public\\' .$this->login_id_usuario .'\\temp'); // Local da pasta no GoogleDrive.
         $this->filtro_caminho_destino = storage_path('app\\public\\' .$this->login_id_usuario .'\\resultado'); // Local da pasta no GoogleDrive.
         $this->filtro_data_inicial = now()->toDateString();
         $this->filtro_data_final = now()->toDateString();
@@ -58,6 +61,89 @@ class Duplicidade extends Component
         return view('livewire.duplicidade', [
             'nomeApp' => $nomeApp
         ]);
+    }
+
+    protected function getGoogleClient() {
+        $cliente = new Client();
+        $cliente->setAuthConfig(storage_path('app/client_secret_497125052021-qheru49cjtj88353ta3d5bq6vf0ffk0o.apps.googleusercontent.com.json'));
+        $cliente->addScope(Drive::DRIVE);
+        $cliente->setRedirectUri('http://127.0.0.1:8000/oauth-google-callback');
+        $guzzleClient = new \GuzzleHttp\Client(['curl' => [CURLOPT_SSL_VERIFYPEER => false]]);
+        $cliente->setHttpClient($guzzleClient);
+        return $cliente;
+    }
+
+    public function baixarPasta() {
+        try {
+            $client = $this->getGoogleClient();
+
+            if (!session('access_token')) {
+                return redirect($client->createAuthUrl());
+            }
+    
+            $client->setAccessToken(session('access_token'));
+            $drive = new Drive($client);
+    
+        	$tempDir = storage_path('app\\public\\' .$this->login_id_usuario .'\\temp\\');
+
+            // Limpeza do diretório temporário 
+            if (Storage::exists($tempDir)) {
+                Storage::deleteDirectory($tempDir);
+            }
+
+            if (!Storage::exists($tempDir)) {
+                Storage::makeDirectory($tempDir);
+            }
+             
+            $this->baixarArquivosRecursivamente($drive, session('caminhoPastaGoogleDrive'), $tempDir);
+    
+        } catch (Exception $e) {
+            session()->flash('error', 'Ocorreu um erro interno, rotina "baixarPasta". Erro: ' .$e->getMessage());
+            return redirect()->route('duplicidade'); 
+        }
+    }
+    
+
+    public function baixarArquivosRecursivamente($drive, $pastaId, $caminho) {
+        //session()->flash('log', 'Baixando arquivos da pasta: ' .$pastaId .' para o caminho: ' .$caminho);
+    
+        try {
+            $resultados = $drive->files->listFiles([
+                'q' => "'{$pastaId}' in parents",
+                'fields' => 'files(id, name, mimeType)'
+            ]);
+  
+            foreach ($resultados->getFiles() as $arquivo) {
+                //session()->flash('log', 'Processando arquivo/pasta: ' .$arquivo->name .$arquivo->id); 
+
+                if ($arquivo->mimeType == 'application/vnd.google-apps.folder') {
+                    $novoCaminho = $caminho . $arquivo->name . '/';
+                    
+                    if (!Storage::exists($novoCaminho)) {
+                        Storage::makeDirectory($novoCaminho);
+                    }
+    
+                    // Evitar loops infinitos verificando se a pasta já foi processada
+                    static $pastasProcessadas = [];
+                    if (isset($pastasProcessadas[$arquivo->id])) {
+                        //session()->flash('error', 'Loop detectado! Pasta ' .$arquivo->name  .$arquivo->id .' já foi processada.');
+                        continue;
+                    }
+    
+                    $pastasProcessadas[$arquivo->id] = true;
+                    $this->baixarArquivosRecursivamente($drive, $arquivo->id, $novoCaminho);
+                } else {
+                    $conteudo = $drive->files->get($arquivo->id, ['alt' => 'media']);
+                    $user = Auth::user();
+                    Storage::put('\\public\\' .$this->login_id_usuario .'\\temp\\' .$arquivo->name, $conteudo->getBody()->getContents());
+                    //session()->flash('log', 'Arquivo baixado: {$arquivo->name}');
+                }
+            }
+
+        } catch (Exception $e) {
+            session()->flash('error', 'Erro ao baixar arquivos da pasta: '.$pastaId .' .Erro: ' . $e->getMessage());
+            return redirect()->route('duplicidade'); 
+        }
     }
 
     // Função responsavel em mostrar a mensagem do arquivo log maximizado.
@@ -106,7 +192,7 @@ class Duplicidade extends Component
             
         } catch (Exception $e) {
             session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' .$e);
-            return redirect('organizar');   
+            return redirect('duplicidade');   
         }
     }    
 
@@ -148,6 +234,16 @@ class Duplicidade extends Component
         try { 
             // Limpa a mensagem flash antes de executar a rotina
             session()->forget(['log', 'error', 'debug']);
+
+            // Verifica se foi peenchido o caminho da pasta com as imagens, e depois 
+            // realizar o download dessas fotos.
+            if (session('caminhoPastaGoogleDrive') == '') {
+                session()->flash('error', 'Favor informar uma pasta de origem contendo as imagens.');
+                return redirect()->route('organizar');   
+            } else {
+                $this->baixarPasta();
+                session()->put('caminhoPastaGoogleDrive',  '');
+            }   
 
             // Verifica se foi preenchido os campos de parametros.
             if ($this->habilitar_data == '') {
@@ -193,6 +289,7 @@ class Duplicidade extends Component
         
         } catch (Exception $e) {
             session()->flash('error', 'Ocorreu um erro interno, rotina "verificaDuplicidade". Erro: ' .$e->getMessage());
+            session()->put('caminhoPastaGoogleDrive',  '');
             return redirect()->route('duplicidade');   
         }
     }  

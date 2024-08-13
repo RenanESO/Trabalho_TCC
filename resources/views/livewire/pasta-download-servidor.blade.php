@@ -15,5 +15,5 @@
     </div>
 
     <button class="btn btn-primary mt-4" wire:click="voltar"> Voltar </button>
-    <button class="btn btn-success mt-4" wire:click="baixarPasta"> Selecionar </button>
+    <button class="btn btn-success mt-4" wire:click="selecionar" data-bs-dismiss="modal"> Selecionar </button>
 </div>

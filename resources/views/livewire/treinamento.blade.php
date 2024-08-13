@@ -66,22 +66,22 @@
                                 <div class="card-body">
 
                                     <!-- Inicio :: Buscar Imagem -->
-                                    <form wire:submit.prevent="buscarImagem"> 
+                                    <form wire:submit.prevent="buscarImagem">
                                         <label class="custom-file-upload">
-                                            
-                                            <input type="file" wire:model="image_pessoa_treinamento" required>
-                                            Selecionar Ficheiro
-                                            
+                                            <input type="file" wire:model="image_pessoa_treinamento" required> Selecione a Imagem
                                         </label>
-                                        @error('image_pessoa_treinamento') 
-                                            <span class="error"> {{ $message }} </span> 
+                                        @error('image_pessoa_treinamento')
+                                            <span class="error"> {{ $message }} </span>
                                         @enderror
                                         <br><br>
-                                        @if ($image_pessoa_treinamento)
-                                            <img id="imagem-treinamento" src="{{ $image_pessoa_treinamento->temporaryUrl() }}">
+                                        @if ($imagePath)
+                                            <img id="imagem-treinamento" src="{{ $imagePath }}" alt="Imagem do Treinamento">
+                                        @elseif ($image_pessoa_treinamento)
+                                            <img id="imagem-treinamento" src="{{ $image_pessoa_treinamento->temporaryUrl() }}" alt="Imagem Temporária do Treinamento">
                                         @endif
                                     </form>
                                     <!-- Fim :: Buscar Imagem -->
+
 
                                 </div>
                                 <!-- Fim :: Conteudo Card -->

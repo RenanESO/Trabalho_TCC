@@ -10,6 +10,8 @@ class Home extends Component
 {
     public function mount()
     {
+        session()->put('caminhoPastaGoogleDrive',  '');
+
         $cliente = $this->getGoogleClient();
     
         $authUrl = $cliente->createAuthUrl();
