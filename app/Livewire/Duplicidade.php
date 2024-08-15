@@ -2,16 +2,10 @@
 
 namespace App\Livewire;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Google\Client;
-use Google\Service\Drive;
 use Livewire\Component;
 use Exception;
 
-class Duplicidade extends Component
-{ 
+class Duplicidade extends Component { 
     public $login_id_usuario;
     public $caminho_compilador_python;
     public $caminho_deteccao_python;
@@ -61,89 +55,6 @@ class Duplicidade extends Component
         return view('livewire.duplicidade', [
             'nomeApp' => $nomeApp
         ]);
-    }
-
-    protected function getGoogleClient() {
-        $cliente = new Client();
-        $cliente->setAuthConfig(storage_path('app/client_secret_497125052021-qheru49cjtj88353ta3d5bq6vf0ffk0o.apps.googleusercontent.com.json'));
-        $cliente->addScope(Drive::DRIVE);
-        $cliente->setRedirectUri('http://127.0.0.1:8000/oauth-google-callback');
-        $guzzleClient = new \GuzzleHttp\Client(['curl' => [CURLOPT_SSL_VERIFYPEER => false]]);
-        $cliente->setHttpClient($guzzleClient);
-        return $cliente;
-    }
-
-    public function baixarPasta() {
-        try {
-            $client = $this->getGoogleClient();
-
-            if (!session('access_token')) {
-                return redirect($client->createAuthUrl());
-            }
-    
-            $client->setAccessToken(session('access_token'));
-            $drive = new Drive($client);
-    
-        	$tempDir = storage_path('app\\public\\' .$this->login_id_usuario .'\\temp\\');
-
-            // Limpeza do diretório temporário 
-            if (Storage::exists($tempDir)) {
-                Storage::deleteDirectory($tempDir);
-            }
-
-            if (!Storage::exists($tempDir)) {
-                Storage::makeDirectory($tempDir);
-            }
-             
-            $this->baixarArquivosRecursivamente($drive, session('caminhoPastaGoogleDrive'), $tempDir);
-    
-        } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "baixarPasta". Erro: ' .$e->getMessage());
-            return redirect()->route('duplicidade'); 
-        }
-    }
-    
-
-    public function baixarArquivosRecursivamente($drive, $pastaId, $caminho) {
-        //session()->flash('log', 'Baixando arquivos da pasta: ' .$pastaId .' para o caminho: ' .$caminho);
-    
-        try {
-            $resultados = $drive->files->listFiles([
-                'q' => "'{$pastaId}' in parents",
-                'fields' => 'files(id, name, mimeType)'
-            ]);
-  
-            foreach ($resultados->getFiles() as $arquivo) {
-                //session()->flash('log', 'Processando arquivo/pasta: ' .$arquivo->name .$arquivo->id); 
-
-                if ($arquivo->mimeType == 'application/vnd.google-apps.folder') {
-                    $novoCaminho = $caminho . $arquivo->name . '/';
-                    
-                    if (!Storage::exists($novoCaminho)) {
-                        Storage::makeDirectory($novoCaminho);
-                    }
-    
-                    // Evitar loops infinitos verificando se a pasta já foi processada
-                    static $pastasProcessadas = [];
-                    if (isset($pastasProcessadas[$arquivo->id])) {
-                        //session()->flash('error', 'Loop detectado! Pasta ' .$arquivo->name  .$arquivo->id .' já foi processada.');
-                        continue;
-                    }
-    
-                    $pastasProcessadas[$arquivo->id] = true;
-                    $this->baixarArquivosRecursivamente($drive, $arquivo->id, $novoCaminho);
-                } else {
-                    $conteudo = $drive->files->get($arquivo->id, ['alt' => 'media']);
-                    $user = Auth::user();
-                    Storage::put('\\public\\' .$this->login_id_usuario .'\\temp\\' .$arquivo->name, $conteudo->getBody()->getContents());
-                    //session()->flash('log', 'Arquivo baixado: {$arquivo->name}');
-                }
-            }
-
-        } catch (Exception $e) {
-            session()->flash('error', 'Erro ao baixar arquivos da pasta: '.$pastaId .' .Erro: ' . $e->getMessage());
-            return redirect()->route('duplicidade'); 
-        }
     }
 
     // Função responsavel em mostrar a mensagem do arquivo log maximizado.
@@ -231,67 +142,25 @@ class Duplicidade extends Component
     // Função responsavel em realizar a verificação de duplicidade no conjunto de fotos  
     // selecionado, retornando as possiveis fotos iguais em outra pasta.
     public function verificaDuplicidade() {
-        try { 
-            // Limpa a mensagem flash antes de executar a rotina
-            session()->forget(['log', 'error', 'debug']);
-
-            // Verifica se foi peenchido o caminho da pasta com as imagens, e depois 
-            // realizar o download dessas fotos.
-            if (session('caminhoPastaGoogleDrive') == '') {
-                session()->flash('error', 'Favor informar uma pasta de origem contendo as imagens.');
-                return redirect()->route('organizar');   
-            } else {
-                $this->baixarPasta();
-                session()->put('caminhoPastaGoogleDrive',  '');
-            }   
-
-            // Verifica se foi preenchido os campos de parametros.
-            if ($this->habilitar_data == '') {
-                $this->filtro_data_inicial = date('d/m/Y', strtotime($this->filtro_data_inicial));
-                $this->filtro_data_final = date('d/m/Y', strtotime($this->filtro_data_final));
-            } else {
-                $this->filtro_data_inicial = 'None'; 
-                $this->filtro_data_final= 'None'; 
-            }
-            if ($this->habilitar_copiar_recortar == '') {
-                $this->filtro_copiar_recortar = $this->filtro_copiar_recortar;
-            } else {
-                $this->filtro_copiar_recortar = 'None'; 
-            }
-
-            $parametros = [     
-                '2',  // Parametro referente a rotina de treianento que será realizada no python.          
-                $this->filtro_caminho_origem, // Parametro referente ao caminho de origem.
-                $this->filtro_caminho_destino, // Parametro referente ao caminho de destino.
-                $this->caminho_arquivo_log, // Parametro referente ao caminho do arquivo log gerado pelo Python.
-                $this->caminho_arquivo_pickle, // Parametro referente ao caminho do arquivo pickle.
-                $this->caminho_arquivo_npy, // Parametro referente ao caminho do arquivo npy.
-                'None', // Parametro referente ao id da pessoa que vai realizar o treinamento do rosto.
-                $this->filtro_data_inicial, // Parametro referente a data inicial do conjunto das fotos. 
-                $this->filtro_data_final, // Parametro referente a data final do conjunto das fotos. 
-                $this->filtro_copiar_recortar, // Parametro referente se as fotos devem ser copiadas ou recortadas.
-                'None' // Parametro referente quanto deve aumentar resolução das imagens.
-            ];
-
-            // Chamada externa do python para realizar a organização das fotos 
-            // referente aos filtros selecionados.
-            $comando = $this->caminho_compilador_python .' ' .$this->caminho_deteccao_python .' ' .implode(' ', $parametros);           
-            //session()->flash('debug', 'Comando: ' .$comando);  
-            
-            //session()->flash('error', $comando);
-            $comando = escapeshellcmd($comando);
-            $cmdResult = shell_exec($comando);
-
-            // Mostra o conteudo do arquivo log minimizado.
-            $this->mostrarLogMinimizado(); 
-             
-            return redirect()->route('duplicidade');   
-        
-        } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "verificaDuplicidade". Erro: ' .$e->getMessage());
-            session()->put('caminhoPastaGoogleDrive',  '');
-            return redirect()->route('duplicidade');   
-        }
+        // Despachar o Job para a fila
+        //dd('entrou');
+        \App\Jobs\VerificaDuplicidadeJob::dispatch(
+            $this->login_id_usuario,
+            $this->caminho_compilador_python,
+            $this->caminho_deteccao_python,
+            $this->caminho_arquivo_log,
+            $this->caminho_arquivo_pickle,
+            $this->caminho_arquivo_npy,
+            $this->filtro_caminho_origem,
+            $this->filtro_caminho_destino,
+            $this->filtro_data_inicial,
+            $this->filtro_data_final,
+            $this->filtro_copiar_recortar,
+            $this->habilitar_data,
+            $this->habilitar_copiar_recortar,
+            $this->nome_botao_log
+        );
+        dd('saiu');
     }  
 }
 
