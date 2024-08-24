@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Illuminate\Support\Facades\App;
 use Livewire\Component;
 use Google\Client;
 use Google\Service\Drive;
@@ -32,7 +33,13 @@ class AuthGoogleCallback extends Component {
       $cliente = new Client();
       $cliente->setAuthConfig(storage_path('app\\client_secret_497125052021-qheru49cjtj88353ta3d5bq6vf0ffk0o.apps.googleusercontent.com.json'));
       $cliente->addScope(Drive::DRIVE);
-      $cliente->setRedirectUri('http://127.0.0.1:8000/oauth-google-callback');
+
+      if (App::environment('local')) {
+        $cliente->setRedirectUri('http://127.0.0.1:8000/oauth-google-callback');
+      } elseif (App::environment('production')) {
+        $cliente->setRedirectUri('https://projetosdevrenan.online/public/oauth-google-callback');
+      }
+
       $guzzleClient = new \GuzzleHttp\Client(array( 'curl' => array( CURLOPT_SSL_VERIFYPEER => false, ), ));
       $cliente->setHttpClient($guzzleClient);
       return $cliente;
