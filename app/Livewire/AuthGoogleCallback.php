@@ -31,7 +31,7 @@ class AuthGoogleCallback extends Component {
   protected function getClienteGoogle()
   {
       $cliente = new Client();
-      $cliente->setAuthConfig(storage_path('app\\client_secret_497125052021-qheru49cjtj88353ta3d5bq6vf0ffk0o.apps.googleusercontent.com.json'));
+      $cliente->setAuthConfig(storage_path('app/client_secret_497125052021-qheru49cjtj88353ta3d5bq6vf0ffk0o.apps.googleusercontent.com.json'));
       $cliente->addScope(Drive::DRIVE);
 
       if (App::environment('local')) {
