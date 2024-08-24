@@ -8,7 +8,6 @@ use Livewire\WithPagination;
 use App\Models\Pessoa;
 use App\Models\Rosto;
 use Exception;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Treinamento extends Component
@@ -59,15 +58,7 @@ class Treinamento extends Component
     // Função principal para renderizar a pagina no blade "Treinamento".
     public function render() {
         $nomeApp = "FotoPlus";  
-        $user = auth()->id();
-
-        $listaPessoas = Pessoa::select('pessoas.*', DB::raw('MIN(rostos.url_rosto) as url_rosto'))
-            ->leftJoin('rostos', 'rostos.id_pessoa', '=', 'pessoas.id')
-            ->where('pessoas.user_id', $user) 
-            ->where('pessoas.nome', 'like', '%' . $this->query_pessoas_cadastro . '%')
-            ->groupBy('pessoas.id')
-            ->orderBy('pessoas.nome')
-            ->paginate(10);
+        $listaPessoas = (new Pessoa())->buscaPessoasPorNome($this->query_pessoas_cadastro);
 
         return view('livewire.treinamento', compact('nomeApp', 'listaPessoas'));
     }
@@ -122,56 +113,34 @@ class Treinamento extends Component
         }
     } 
 
-    // Função responsavel em reiniciar a paginação para a primeira página.
-    public function reiniciarPaginacao() {
+    // Função responsavel em atribuir a pessoa selecionada na tabela para o treinamento.
+    public function selecionarPessoa($id)
+    {
         try {
-            $this->resetPage();
+            $this->id_pessoa_treinamento = $id;
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "reiniciarPaginacao". Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "selecionarPessoa". Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
-        }
-    }   
+        }      
+    }
 
-    // Função que abre o explorador de arquivo para buscar de uma imagem de rosto dentro da maquina do usuario.
+    // Função que abre o explorador de arquivo para buscar de uma imagem de rosto dentro da maquina do usuario.         
     public function buscarImagem() {
-        try {
-            session()->flash('debug', '1');  
-
-            $this->validate([
-                'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg,gif|min:1|max:2048'
-            ]);
-    
-            $caminhoTemporarioUsuario = $this->login_id_usuario . '/uploads';
-            $path = $this->image_pessoa_treinamento->store('public/' .$caminhoTemporarioUsuario);
-
-            dd($path);
-    
-            // Ajusta o caminho para ser acessível publicamente
-            $this->imagePath = Storage::url($path);
-    
-        } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "buscarImagem". Erro: ' . $e->getMessage());
-            return redirect()->route('treinamento');
-        }
-    }    
-     
-    /*public function buscarImagem() {
         try {
             // Adapte as regras de validação conforme necessário.
             $this->validate([        
-                'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg,gif|min:1|max:2048'
+                'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg|min:1|max:2048'
             ]);
 
             // Salve a imagem na pasta de uploads ou armazene-a no seu sistema, conforme necessário.
             $this->image_pessoa_treinamento->store('uploads');
-            //session()->flash('debug', 'Imagem Carregada: ' .$this->image_pessoa_treinamento);
 
         } catch (Exception $e) {
             session()->flash('error', 'Ocorreu um erro interno, rotina "buscarImagem". Erro: ' . $e->getMessage());
             return redirect()->route('treinamento');
         }
-    }*/
+    }
 
     // Função que realiza o cadastro de uma nova pessoa e rosto referente a pessoa cadastrada. 
     public function cadastrarPessoa() {
@@ -179,17 +148,30 @@ class Treinamento extends Component
             // Limpa a mensagem flash antes de executar a rotina
             session()->forget(['log', 'error', 'debug']);
 
+            // Verifica se ID do usuário está definido.
+            if (!$this->login_id_usuario) {
+                session()->flash('error', 'Não foi encontrado o ID do usuário logado.');
+                return redirect()->route('organizar');   
+            }
+
+            // Verifica se nome da pessoa que será realizado o cadastro está definido.
+            if (!$this->nome_pessoa_cadastro) {
+                session()->flash('error', 'Não foi encontrado o nome da pessoa que será realizado o cadastro.');
+                return redirect()->route('organizar');   
+            }
+
+            // Verifica se a imagem da pessoa que será realizado o cadastro está definido.
+            if (!$this->image_pessoa_treinamento) {
+                session()->flash('error', 'Não foi encontrado a imagem da pessoa que será realizado o cadastro.');
+                return redirect()->route('organizar');   
+            }
+
             // Adapte as regras de validação conforme necessário.
             $this->validate([
                 'nome_pessoa_cadastro' => 'required|string|min:1|max:100',
                 'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg,gif|min:1|max:2048',
                 'login_id_usuario' => 'required'
             ]);
-
-            // Verifica se login_id_usuario está definido e não é nulo
-            if (!$this->login_id_usuario) {
-                throw new \Exception('User ID is required.');
-            }
 
             // Cadastrado uma nova pessoa na tabela.
             $pessoa_cadastrada = Pessoa::create([
@@ -215,6 +197,18 @@ class Treinamento extends Component
         try {
             // Limpa a mensagem flash antes de executar a rotina
             session()->forget(['log', 'error', 'debug']);
+
+            // Verifica se ID do usuário está definido.
+            if (!$this->login_id_usuario) {
+                session()->flash('error', 'Não foi encontrado o ID do usuário logado.');
+                return redirect()->route('organizar');   
+            }
+
+            // Verifica se a imagem da pessoa que será realizado o cadastro está definido.
+            if (!$this->image_pessoa_treinamento) {
+                session()->flash('error', 'Não foi encontrado a imagem da pessoa que será realizado o cadastro.');
+                return redirect()->route('organizar');   
+            }
 
             // Adapte as regras de validação conforme necessário.
             $this->validate([

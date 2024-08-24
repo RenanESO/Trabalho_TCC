@@ -12,6 +12,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.0",
+        "recca0120/laravel-parallel": "^1.4",
         "yaza/laravel-google-drive-storage": "*"
     },
     "require-dev": {

@@ -61,13 +61,12 @@ class VerificaDuplicidadeJob implements ShouldQueue
      * Execute the job.
      */
     public function handle() {
-        try {
-            dd('entrou handle');
+        //try {
             session()->forget(['log', 'error', 'debug']);
-
+            
             if (session('caminhoPastaGoogleDrive') == '') {
-                session()->flash('error', 'Favor informar uma pasta de origem contendo as imagens.');
-                return redirect()->route('organizar');   
+                //session()->flash('error', 'Favor informar uma pasta de origem contendo as imagens.');
+                return; //redirect()->route('organizar');   
             } else {
                 $this->baixarPasta();
                 session()->put('caminhoPastaGoogleDrive',  '');
@@ -100,21 +99,19 @@ class VerificaDuplicidadeJob implements ShouldQueue
                 'None'
             ];
 
-            $comando = $this->caminho_compilador_python .' ' .$this->caminho_deteccao_python .' ' .implode(' ', $parametros);
-            $comando = escapeshellcmd($comando);
-            $cmdResult = shell_exec($comando);
+            //$comando = $this->caminho_compilador_python .' ' .$this->caminho_deteccao_python .' ' .implode(' ', $parametros);
+            //$comando = escapeshellcmd($comando);
+            //$cmdResult = shell_exec($comando);
 
-            dd('saiu handle');
-
-            $this->mostrarLogMinimizado(); 
+            //$this->mostrarLogMinimizado(); 
             
-            return redirect()->route('duplicidade');   
+            return;// redirect()->route('duplicidade');   
         
-        } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "verificaDuplicidade". Erro: ' .$e->getMessage());
-            session()->put('caminhoPastaGoogleDrive',  '');
-            return redirect()->route('duplicidade');   
-        }
+        //} catch (Exception $e) {
+        //    session()->flash('error', 'Ocorreu um erro interno, rotina "verificaDuplicidade". Erro: ' .$e->getMessage());
+        //    session()->put('caminhoPastaGoogleDrive',  '');
+        //    return redirect()->route('duplicidade');   
+       // }
     }
 
     // Função responsavel em mostrar a mensagem do arquivo log minimizado.
@@ -171,8 +168,8 @@ class VerificaDuplicidadeJob implements ShouldQueue
             $this->baixarArquivosRecursivamente($drive, session('caminhoPastaGoogleDrive'), $tempDir);
     
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "baixarPasta". Erro: ' .$e->getMessage());
-            return redirect()->route('duplicidade'); 
+            //session()->flash('error', 'Ocorreu um erro interno, rotina "baixarPasta". Erro: ' .$e->getMessage());
+            //return redirect()->route('duplicidade'); 
         }
     }
     
@@ -214,8 +211,8 @@ class VerificaDuplicidadeJob implements ShouldQueue
             }
 
         } catch (Exception $e) {
-            session()->flash('error', 'Erro ao baixar arquivos da pasta: '.$pastaId .' .Erro: ' . $e->getMessage());
-            return redirect()->route('duplicidade'); 
+           // session()->flash('error', 'Erro ao baixar arquivos da pasta: '.$pastaId .' .Erro: ' . $e->getMessage());
+           // return redirect()->route('duplicidade'); 
         }
     }
 
