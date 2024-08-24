@@ -172,16 +172,3 @@
     <!-- Fim :: Main -->
 
 </div>
-
-<!--
-<script>
-    if (window.innerWidth > 1280) {
-      const img = new Image();
-      img.src = '../imagens/bannerMain.png';
-      img.onload = function() {
-        const div = document.getElementById('main-slider');
-        div.style.height = `${img.height}px`;
-      };
-    }
-</script>
--->

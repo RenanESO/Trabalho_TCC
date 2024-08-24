@@ -6,6 +6,7 @@ use Exception;
 use Google\Client;
 use Google\Service\Drive;
 use GuzzleHttp\Promise\Utils;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 class GoogleService
@@ -20,7 +21,13 @@ class GoogleService
         $this->client = new Client();
         $this->client->setAuthConfig(storage_path('app/client_secret_497125052021-qheru49cjtj88353ta3d5bq6vf0ffk0o.apps.googleusercontent.com.json'));
         $this->client->addScope(Drive::DRIVE);
-        $this->client->setRedirectUri('http://127.0.0.1:8000/oauth-google-callback');
+
+        if (App::environment('local')) {
+            $this->client->setRedirectUri('http://127.0.0.1:8000/oauth-google-callback');
+        } elseif (App::environment('production')) {
+            $this->client->setRedirectUri('https://projetosdevrenan.online/public/oauth-google-callback');
+        }
+
         $this->guzzleClient = new \GuzzleHttp\Client(['curl' => [CURLOPT_SSL_VERIFYPEER => false]]);
         $this->client->setHttpClient($this->guzzleClient);
     }

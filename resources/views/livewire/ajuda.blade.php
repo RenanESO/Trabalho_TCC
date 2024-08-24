@@ -2,7 +2,9 @@
 
     <!-- Inicio :: Main -->
     <main class="container-fluid">
+        
         <div class="container m-auto">
+
             <h1 class="text-center py-5"> Central de Ajuda </h1>
 
             <!-- Inicio :: 1º Card -->
@@ -38,6 +40,7 @@
 
                 <!-- Inicio :: Conteudo Card -->
                 <div class="card-body">
+
                     <!-- Inicio :: 1ª Linha -->
                     <div class="row">
                         <p> Nosso sistema de treinamento de imagens de pessoas foi desenvolvido para facilitar o cadastro e o treinamento de novas pessoas em seu banco de dados. 
@@ -52,6 +55,7 @@
                             com nossa equipe de suporte. </p>    
                     </div>
                     <!-- Fim :: 1ª Linha -->
+
                 </div>
                 <!-- Fim :: Conteudo Card -->
 
@@ -71,6 +75,7 @@
 
                 <!-- Inicio :: Conteudo Card -->
                 <div class="card-body">
+
                     <!-- Inicio :: 1ª Linha -->
                     <div class="row">
                         <p> Nosso sistema de organização de fotos foi desenvolvido para facilitar a organização de suas fotos de forma 
@@ -88,6 +93,7 @@
                             com nossa equipe de suporte. </p>                     
                     </div>
                     <!-- Fim :: 1ª Linha -->
+
                 </div>
                 <!-- Fim :: Conteudo Card -->
 
@@ -107,6 +113,7 @@
 
                 <!-- Inicio :: Conteudo Card -->
                 <div class="card-body">
+
                     <!-- Inicio :: 1ª Linha -->
                     <div class="row">
                         <p> Nosso sistema de verificação de duplicidade de fotos foi desenvolvido para ajudá-lo a identificar e gerenciar fotos duplicadas 
@@ -121,6 +128,7 @@
                             contato com nossa equipe de suporte. </p>                   
                     </div>
                     <!-- Fim :: 1ª Linha -->
+
                 </div>
                 <!-- Fim :: Conteudo Card -->
 

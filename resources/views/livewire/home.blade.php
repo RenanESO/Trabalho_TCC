@@ -1,11 +1,17 @@
 <div>
 
-    <!-- Início :: Principal -->
+    <!-- Início :: Main -->
     <main class="container-fluid">
 
+        <!-- Inicio :: Menu -->
         <div id="menu">
+
             <h1 class="text-center mb-4">Escolha uma opção</h1>
+
+             <!-- Inicio :: 1ª Linha - Menu -->
             <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                <!-- Inicio :: 1ª Coluna - Menu -->
                 <div class="col-lg">
                     <div class="card m-2" style="cursor: pointer;" onclick="location.href='{{ asset('organizar') }}'">
                         <img src="{{ asset('imagens/iconeOrganizar.png') }}" class="card-img-top" alt="card-Organizar">
@@ -22,6 +28,9 @@
                         </div>
                     </div>
                 </div>
+                <!-- Fim :: 1ª Coluna - Menu -->
+
+                <!-- Inicio :: 2ª Coluna - Menu -->
                 <div class="col-lg">
                     <div class="card m-2" style="cursor: pointer;" onclick="location.href='{{ asset('duplicidade') }}'">
                         <img src="{{ asset('imagens/iconeDuplicidade.png') }}" class="card-img-top" alt="card-Duplicidade">
@@ -37,6 +46,9 @@
                         </div>
                     </div>
                 </div>
+                <!-- Fim :: 1ª Coluna - Menu -->
+
+                <!-- Inicio :: 3ª Coluna - Menu -->
                 <div class="col-lg">
                     <div class="card m-2" style="cursor: pointer;" onclick="location.href='{{ asset('treinamento') }}'">
                         <img src="{{ asset('imagens/iconeTreinamento.png') }}" class="card-img-top" alt="card-Treinamento">
@@ -52,10 +64,15 @@
                         </div>
                     </div>
                 </div>
+                <!-- Fim :: 1ª Coluna - Menu -->
+
             </div>
+            <!-- Fim :: 1ª Linha - Menu -->
+            
         </div>
+        <!-- Fim :: Menu -->
 
     </main>
-    <!-- Fim :: Principal -->
+    <!-- Fim :: Main -->
 
 </div>
