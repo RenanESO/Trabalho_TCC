@@ -8,7 +8,6 @@ use Livewire\WithPagination;
 use App\Models\Pessoa;
 use App\Models\Rosto;
 use Exception;
-use Illuminate\Support\Facades\Storage;
 
 class Treinamento extends Component
 {
@@ -31,7 +30,8 @@ class Treinamento extends Component
     public $imagePath;
 
     // Função construtora da pagina no blade "Treinamento".
-    public function mount() {
+    public function mount() 
+    {
         // Definindo a variavel com o ID Usuario que esta logado.
         $this->login_id_usuario = auth()->id(); 
 
@@ -56,18 +56,19 @@ class Treinamento extends Component
     }
 
     // Função principal para renderizar a pagina no blade "Treinamento".
-    public function render() {
+    public function render() 
+    {
         $nomeApp = "FotoPlus";  
         $listaPessoas = (new Pessoa())->buscaPessoasPorNome($this->query_pessoas_cadastro);
-
         return view('livewire.treinamento', compact('nomeApp', 'listaPessoas'));
     }
 
     // Função responsavel em mostrar a mensagem do arquivo log maximizado.
-    public function mostrarLogMaximizado() {
+    public function mostrarLogMaximizado() 
+    {
         try {
             if (file_exists($this->caminho_arquivo_log)) {
-                $texto_completo_log = implode(' | ', file($this->caminho_arquivo_log));
+                $texto_completo_log = file($this->caminho_arquivo_log);  
                 $this->nome_botao_log = 'Leia menos'; 
                 session()->flash('log', $texto_completo_log);
             } else {
@@ -75,13 +76,14 @@ class Treinamento extends Component
             }  
                     
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMaximizado". Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMaximizado". Erro: ' .$e->getMessage());
             return redirect()->route('treinamento'); 
         }
     }   
 
     // Função responsavel em mostrar a mensagem do arquivo log minimizado.
-    public function mostrarLogMinimizado() {
+    public function mostrarLogMinimizado() 
+    {
         try {
             if (file_exists($this->caminho_arquivo_log)) {
                 $texto_completo_log = file($this->caminho_arquivo_log);   
@@ -93,13 +95,14 @@ class Treinamento extends Component
             }  
             
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMinimizado". Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "mostrarLogMinimizado". Erro: ' .$e->getMessage());
             return redirect()->route('treinamento');
         }
     }   
 
     // Função responsavel em alterar o tamanho da mensagem do arquivo log.
-    public function alterarTamanhoLog() {
+    public function alterarTamanhoLog() 
+    {
         try {
             if ($this->nome_botao_log == 'Leia mais') {            
                 $this->mostrarLogMaximizado();
@@ -108,7 +111,7 @@ class Treinamento extends Component
             }
             
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' .$e->getMessage());
             return redirect()->route('treinamento');
         }
     } 
@@ -120,30 +123,14 @@ class Treinamento extends Component
             $this->id_pessoa_treinamento = $id;
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "selecionarPessoa". Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "selecionarPessoa". Erro: ' .$e->getMessage());
             return redirect()->route('treinamento');
         }      
     }
 
-    // Função que abre o explorador de arquivo para buscar de uma imagem de rosto dentro da maquina do usuario.         
-    public function buscarImagem() {
-        try {
-            // Adapte as regras de validação conforme necessário.
-            $this->validate([        
-                'image_pessoa_treinamento' => 'required|image|mimes:jpeg,png,jpg|min:1|max:2048'
-            ]);
-
-            // Salve a imagem na pasta de uploads ou armazene-a no seu sistema, conforme necessário.
-            $this->image_pessoa_treinamento->store('uploads');
-
-        } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "buscarImagem". Erro: ' . $e->getMessage());
-            return redirect()->route('treinamento');
-        }
-    }
-
     // Função que realiza o cadastro de uma nova pessoa e rosto referente a pessoa cadastrada. 
-    public function cadastrarPessoa() {
+    public function cadastrarPessoa() 
+    {
         try {
             // Limpa a mensagem flash antes de executar a rotina
             session()->forget(['log', 'error', 'debug']);
@@ -187,13 +174,14 @@ class Treinamento extends Component
             $this->treinarPessoa();
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "cadastrarPessoa". Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "cadastrarPessoa". Erro: ' .$e->getMessage());
             return redirect()->route('treinamento');
         } 
     }
 
     // Função que realiza o cadastro do novo rosto da pessoa seleciona e realiza um novo treinamento.
-    public function treinarPessoa() {
+    public function treinarPessoa() 
+    {
         try {
             // Limpa a mensagem flash antes de executar a rotina
             session()->forget(['log', 'error', 'debug']);
@@ -235,23 +223,23 @@ class Treinamento extends Component
             ]);
             
             $parametros = [     
-                '0',  // Parametro referente a rotina de treianento que será realizada no python.          
-                $this->filtro_caminho_origem, // Parametro referente ao caminho de origem.
-                'None', // Parametro referente ao caminho de destino.
-                $this->caminho_arquivo_log, // Parametro referente ao caminho do arquivo log gerado pelo Python.
-                $this->caminho_arquivo_pickle, // Parametro referente ao caminho do arquivo pickle.
-                $this->caminho_arquivo_npy, // Parametro referente ao caminho do arquivo npy.
-                $this->id_pessoa_treinamento, // Parametro referente ao id da pessoa que vai realizar o treinamento do rosto.
-                'None', // Parametro referente a data inicial do conjunto das fotos. 
-                'None', // Parametro referente a data final do conjunto das fotos. 
-                'None', // Parametro referente se as fotos devem ser copiadas ou recortadas.
-                'None' // Parametro referente quanto deve aumentar resolução das imagens.
+                '0',                            // Parametro referente a rotina de treianento que será realizada no python.          
+                $this->filtro_caminho_origem,   // Parametro referente ao caminho de origem.
+                'None',                         // Parametro referente ao caminho de destino.
+                $this->caminho_arquivo_log,     // Parametro referente ao caminho do arquivo log gerado pelo Python.
+                $this->caminho_arquivo_pickle,  // Parametro referente ao caminho do arquivo pickle.
+                $this->caminho_arquivo_npy,     // Parametro referente ao caminho do arquivo npy.
+                $this->id_pessoa_treinamento,   // Parametro referente ao id da pessoa que vai realizar o treinamento do rosto.
+                'None',                         // Parametro referente a data inicial do conjunto das fotos. 
+                'None',                         // Parametro referente a data final do conjunto das fotos. 
+                'None',                         // Parametro referente se as fotos devem ser copiadas ou recortadas.
+                'None'                          // Parametro referente quanto deve aumentar resolução das imagens.
             ];
 
             // Chamada externa do python para realizar o treinamento da foto 
             // da pessoa selecionada.
             $comando = $this->caminho_compilador_python .' ' .$this->caminho_deteccao_python .' ' .implode(' ', $parametros);           
-            //session()->flash('debug', 'Comando: ' .$comando);
+            session()->flash('debug', 'Comando: ' .$comando);
 
             $comando = escapeshellcmd($comando);
             $cmdResulto = shell_exec($comando);
@@ -262,19 +250,8 @@ class Treinamento extends Component
             return redirect()->route('treinamento');    
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "treinarPessoa" Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "treinarPessoa" Erro: ' .$e->getMessage());
             return redirect()->route('treinamento');
         } 
-    }
-
-    public function unmount() {
-        try {
-            // Caminho da pasta temporária que você deseja limpar
-            $caminhoTemporario = storage_path('app\\public\\' .$this->login_id_usuario);
-            Storage::deleteDirectory($caminhoTemporario);
-            
-        } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro ao limpar a pasta temporária: ' . $e->getMessage());
-        }
     }
 }

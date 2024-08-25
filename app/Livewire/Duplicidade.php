@@ -8,6 +8,8 @@ use Exception;
 
 class Duplicidade extends Component 
 { 
+    protected $googleDriveClient;
+
     public $login_id_usuario;
     public $caminho_compilador_python;
     public $caminho_deteccao_python;
@@ -21,8 +23,6 @@ class Duplicidade extends Component
     public $filtro_copiar_recortar;
     public $habilitar_data; 
     public $nome_botao_log; 
-
-    protected $googleDriveClient;
 
     // Função construtora da pagina no blade "Duplicidade".
     public function mount(GoogleService $googleDriveClient)
@@ -116,7 +116,7 @@ class Duplicidade extends Component
             }
             
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' .$e);
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' .$e->getMessage());
             return redirect('duplicidade');   
         }
     }       
@@ -178,7 +178,7 @@ class Duplicidade extends Component
             // Mostra o conteudo do arquivo log minimizado.
             $this->mostrarLogMinimizado();
 
-            // Reseta o caminho da pasta selecionada no google drive para vazio.
+            // Reseta a session referente ao caminho da pasta selecionada no Google Drive para vazio.
             session()->put('caminhoPastaGoogleDrive',  '');
 
             return redirect()->route('duplicidade');

@@ -11,6 +11,7 @@ class Home extends Component {
 
     public function mount(GoogleService $googleDriveClient)
     {
+        // Reseta a session referente ao caminho da pasta selecionada no Google Drive para vazio.
         session()->put('caminhoPastaGoogleDrive',  '');
 
         // Realiza a autenticação da API do Google Drive.

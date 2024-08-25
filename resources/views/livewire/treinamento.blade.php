@@ -19,11 +19,11 @@
                 <div class="card-body">
 
                     <!-- Inicio :: Tela Cinza Carregamento -->
-                    <div class="overlay" wire:loading wire:target="treinarPessoa, cadastrarPessoa, selecionarPessoa, alterarTamanhoLog"> </div>
+                    <div class="overlay" wire:loading wire:target="image_pessoa_treinamento, treinarPessoa, cadastrarPessoa, selecionarPessoa, alterarTamanhoLog, buscarImagem"> </div>
                     <!-- Fim :: Tela Cinza Carregamento -->
 
                     <!-- Inicio :: Carregamento -->
-                    <div class="alert alert-primary text-center shadow-sm p-3 mx-3 mb-3 rounded"  wire:loading.grid wire:target="treinarPessoa, cadastrarPessoa, selecionarPessoa, alterarTamanhoLog">
+                    <div class="alert alert-primary text-center shadow-sm p-3 mx-3 mb-3 rounded"  wire:loading.grid wire:target="image_pessoa_treinamento, treinarPessoa, cadastrarPessoa, selecionarPessoa, alterarTamanhoLog, buscarImagem">
                         <i class="fas fa-spinner fa-spin"></i> <span class="alert-text"> Aguarde Carregando... </span>
                     </div>
                     <!-- Fim :: Carregamento -->
@@ -69,10 +69,17 @@
                                     <div class="row">
 
                                         <!-- Inicio :: 1ª Coluna - Card 1º Passo -->
-                                        <div class="col-lg">   
-                                            <form wire:submit.prevent="buscarImagem">
+                                        <div class="col-lg">    
+                                            
+                                            <div
+                                                x-data="{ isUploading: false, progress: 0 }"
+                                                x-on:livewire-upload-start="isUploading = true"
+                                                x-on:livewire-upload-finish="isUploading = false"
+                                                x-on:livewire-upload-error="isUploading = false"
+                                                x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                            >
                                                 <label class="custom-file-upload">
-                                                    <input type="file" wire:model="image_pessoa_treinamento" required> Selecione a Imagem
+                                                    <input type="file" wire:model="image_pessoa_treinamento" accept=".jpg,.jpeg,.png" required> Selecione a Imagem
                                                 </label>
                                                 @error('image_pessoa_treinamento')
                                                     <span class="error"> {{ $message }} </span>
@@ -81,7 +88,18 @@
                                                 @if ($image_pessoa_treinamento)
                                                     <img id="imagem-treinamento" src="{{ $image_pessoa_treinamento->temporaryUrl() }}" alt="Imagem Temporária do Treinamento">
                                                 @endif
-                                            </form>
+
+                                                <!-- Progress Bar -->
+                                                <div x-show="isUploading">
+                                                    <div class="row p-3 mx-3">
+                                                        <progress class="p-3" max="100" x-bind:value="progress"></progress>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <span class="text-center"> Carregando ... </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <!-- Fim :: 1ª Coluna - Card 1º Passo -->                                        
 

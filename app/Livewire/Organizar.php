@@ -15,6 +15,8 @@ class Organizar extends Component {
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
+    protected $cliente;
+    protected $googleDriveClient;
 
     public $login_id_usuario;
     public $caminho_compilador_python;
@@ -32,9 +34,6 @@ class Organizar extends Component {
     public $filtro_resolucao;
     public $habilitar_data; 
     public $nome_botao_log; 
-
-    protected $cliente;
-    protected $googleDriveClient;
 
     // Função construtora da pagina no blade "Organizar".
     public function mount(GoogleService $googleDriveClient)
@@ -88,7 +87,7 @@ class Organizar extends Component {
             $this->filtro_pessoa_organizar = $id;
 
         } catch (Exception $e) {
-            session()->flash('error', 'Ocorreu um erro interno, rotina "selecionarPessoa". Erro: ' . $e->getMessage());
+            session()->flash('error', 'Ocorreu um erro interno, rotina "selecionarPessoa". Erro: ' .$e->getMessage());
             return redirect()->route('organizar');
         }      
     }
@@ -98,7 +97,7 @@ class Organizar extends Component {
     {
         try {
             if (file_exists($this->caminho_arquivo_log)) {
-                $texto_completo_log = implode(' | ', file($this->caminho_arquivo_log));
+                $texto_completo_log = file($this->caminho_arquivo_log);  
                 $this->nome_botao_log = 'Leia menos'; 
                 session()->flash('log', $texto_completo_log);
             } else {
@@ -214,7 +213,7 @@ class Organizar extends Component {
             // Mostra o conteudo do arquivo log minimizado.
             $this->mostrarLogMinimizado();
 
-            // Reseta o caminho da pasta selecionada no google drive para vazio.
+            // Reseta a session referente ao caminho da pasta selecionada no Google Drive para vazio.
             session()->put('caminhoPastaGoogleDrive',  '');
 
             return redirect()->route('organizar');   
