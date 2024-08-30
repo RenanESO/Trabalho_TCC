@@ -5,6 +5,9 @@ namespace App\Livewire;
 use App\Services\GoogleService;
 use Livewire\Component;
 use Exception;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use ZipArchive;
 
 class Duplicidade extends Component 
 { 
@@ -25,12 +28,8 @@ class Duplicidade extends Component
     public $nome_botao_log; 
 
     // Função construtora da pagina no blade "Duplicidade".
-    public function mount(GoogleService $googleDriveClient)
+    public function mount()
     {
-        // Realiza a autenticação da API do Google Drive.
-        $this->googleDriveClient = $googleDriveClient;
-        $this->googleDriveClient->authenticate();
-
         // Definindo a variavel com o ID Usuario que esta logado.
         $this->login_id_usuario = auth()->id();
         
@@ -51,7 +50,7 @@ class Duplicidade extends Component
         $this->filtro_copiar_recortar = '0';
 
         // Definindo as variaveis referentes aos status dos edits dos filtros.
-        $this->habilitar_data = False;
+        $this->habilitar_data = 'disabled';
 
         // Definindo a variavel com o nome do botão do resultado da rotina de duplicidade.
         $this->nome_botao_log = 'Leia mais';
@@ -119,7 +118,23 @@ class Duplicidade extends Component
             session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' .$e->getMessage());
             return redirect('duplicidade');   
         }
-    }       
+    } 
+    
+    // Função responsavel em alterar o status do campo "Data" 
+    // para habilitar|desabilitar o edit.
+    public function alterarStatusData() {
+        try {
+            if ($this->habilitar_data == '') {
+                $this->habilitar_data = 'disabled';    
+            } else {
+                $this->habilitar_data = '';     
+            }
+
+        } catch (Exception $e) {
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarStatusData". Erro: ' .$e->getMessage());
+            return redirect()->route('organizar'); 
+        }
+    }  
 
     // Função responsavel em realizar a verificação de duplicidade no conjunto de fotos  
     // selecionado, retornando as possiveis fotos iguais em outra pasta.
@@ -134,6 +149,15 @@ class Duplicidade extends Component
                 return redirect()->route('duplicidade');   
             }
 
+            // Verifica se foi preenchido os campos de parâmetros.
+            if ($this->habilitar_data == '') {
+                $this->filtro_data_inicial = date('d/m/Y', strtotime($this->filtro_data_inicial));
+                $this->filtro_data_final = date('d/m/Y', strtotime($this->filtro_data_final));
+            } else {
+                $this->filtro_data_inicial = 'None';
+                $this->filtro_data_final = 'None';
+            }
+
             // Verifica se foi peenchido o caminho da pasta com as imagens, e depois 
             // realizar o download dessas fotos.
             if (session('caminhoPastaGoogleDrive') == '') {
@@ -141,16 +165,7 @@ class Duplicidade extends Component
                 return redirect()->route('duplicidade');
             } else {
                 $googleServico = new GoogleService();
-                $googleServico->baixarPasta();
-            }
-
-            // Verifica se foi preenchido os campos de parâmetros.
-            if ($this->habilitar_data == '') {
-                $this->filtro_data_inicial = date('d/m/Y', strtotime($this->filtro_data_inicial));
-                $this->filtro_data_final = date('d/m/Y', strtotime($this->filtro_data_final));
-            } else {
-                $this->filtro_data_inicial = 'None';
-                $this->filtro_data_final= 'None';
+                $googleServico->baixarPasta($this->filtro_data_inicial, $this->filtro_data_final);
             }
 
             $parametros = [
@@ -178,10 +193,10 @@ class Duplicidade extends Component
             // Mostra o conteudo do arquivo log minimizado.
             $this->mostrarLogMinimizado();
 
-            // Reseta a session referente ao caminho da pasta selecionada no Google Drive para vazio.
-            session()->put('caminhoPastaGoogleDrive',  '');
+            $this->criarZip();
 
-            return redirect()->route('duplicidade');
+            // Redireciona para a rota de download
+            return redirect()->route('download-zip', ['user_id' => $this->login_id_usuario]); 
 
         } catch (Exception $e) {
             session()->flash('error', 'Ocorreu um erro interno, rotina "verificaDuplicidade". Erro: ' .$e->getMessage());
@@ -189,6 +204,29 @@ class Duplicidade extends Component
             return redirect()->route('duplicidade');
         }
     }  
+
+    public function criarZip()
+    {
+        $folderPath = $this->filtro_caminho_destino; 
+        $zipFilePath = storage_path('app\\public\\' . $this->login_id_usuario . '\\resultado.zip');
+
+        $zip = new ZipArchive;
+        if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folderPath));
+            foreach ($files as $file) {
+                if (!$file->isDir()) {
+                    $relativePath = substr($file->getRealPath(), strlen($folderPath) + 1);                  
+                    $zip->addFile($file->getRealPath(), $relativePath);
+                }
+            }
+            $zip->close();
+        } else {
+            session()->flash('error', 'Não foi possível criar o arquivo ZIP');
+            session()->put('caminhoPastaGoogleDrive',  '');
+            return redirect()->route('organizar');
+        }
+    }
+
 }
 
 

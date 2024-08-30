@@ -8,6 +8,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Pessoa;
 use Exception;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use ZipArchive;
 
 class Organizar extends Component {
 
@@ -34,14 +37,11 @@ class Organizar extends Component {
     public $filtro_resolucao;
     public $habilitar_data; 
     public $nome_botao_log; 
+    public $downloadLink;
 
     // Função construtora da pagina no blade "Organizar".
-    public function mount(GoogleService $googleDriveClient)
+    public function mount()
     {    
-        // Realiza a autenticação da API do Google Drive.
-        $this->googleDriveClient = $googleDriveClient;
-        $this->googleDriveClient->authenticate();
-
         // Definindo a variavel com o ID Usuario que esta logado.
         $this->login_id_usuario = auth()->id(); 
 
@@ -67,10 +67,12 @@ class Organizar extends Component {
         $this->filtro_resolucao = '1';
 
         // Definindo as variaveis referentes aos status dos edits dos filtros.
-        $this->habilitar_data = False;
+        $this->habilitar_data = 'disabled';
 
         // Definindo a variavel com o nome do botão do resultado da rotina de organizar.
         $this->nome_botao_log = 'Leia mais';
+
+        $this->downloadLink = '';
     }
 
     public function render() 
@@ -147,6 +149,22 @@ class Organizar extends Component {
             session()->flash('error', 'Ocorreu um erro interno, rotina "alterarTamanhoLog". Erro: ' .$e->getMessage());
             return redirect()->route('organizar'); 
         }
+    } 
+    
+    // Função responsavel em alterar o status do campo "Data" 
+    // para habilitar|desabilitar o edit.
+    public function alterarStatusData() {
+        try {
+            if ($this->habilitar_data == '') {
+                $this->habilitar_data = 'disabled';    
+            } else {
+                $this->habilitar_data = '';     
+            }
+
+        } catch (Exception $e) {
+            session()->flash('error', 'Ocorreu um erro interno, rotina "alterarStatusData". Erro: ' .$e->getMessage());
+            return redirect()->route('organizar'); 
+        }
     }   
 
     // Função responsavel em realizar a verificação e organização do conjunto de fotos  
@@ -169,6 +187,15 @@ class Organizar extends Component {
                 return redirect()->route('organizar');   
             }
 
+            // Verifica se foi preenchido os campos de parâmetros.
+            if ($this->habilitar_data == '') {
+                $this->filtro_data_inicial = date('d/m/Y', strtotime($this->filtro_data_inicial));
+                $this->filtro_data_final = date('d/m/Y', strtotime($this->filtro_data_final));
+            } else {
+                $this->filtro_data_inicial = 'None'; 
+                $this->filtro_data_final = 'None'; 
+            }
+
             // Verifica se foi peenchido o caminho da pasta com as imagens, e depois 
             // realizar o download dessas fotos.
             if (session('caminhoPastaGoogleDrive') == '') {
@@ -176,17 +203,8 @@ class Organizar extends Component {
                 return redirect()->route('organizar');   
             } else {
                 $googleServico = new GoogleService();
-                $googleServico->baixarPasta();
+                $googleServico->baixarPasta($this->filtro_data_inicial, $this->filtro_data_final);
             }      
-
-            // Verifica se foi preenchido os campos de parâmetros.
-            if ($this->habilitar_data == True) {
-                $this->filtro_data_inicial = date('d/m/Y', strtotime($this->filtro_data_inicial));
-                $this->filtro_data_final = date('d/m/Y', strtotime($this->filtro_data_final));
-            } else {
-                $this->filtro_data_inicial = 'None'; 
-                $this->filtro_data_final = 'None'; 
-            }
 
             $parametros = [     
                 '1',                            // Parametro referente a rotina de treianento que será realizada no python.          
@@ -213,10 +231,10 @@ class Organizar extends Component {
             // Mostra o conteudo do arquivo log minimizado.
             $this->mostrarLogMinimizado();
 
-            // Reseta a session referente ao caminho da pasta selecionada no Google Drive para vazio.
-            session()->put('caminhoPastaGoogleDrive',  '');
+            $this->criarZip();
 
-            return redirect()->route('organizar');   
+            // Redireciona para a rota de download
+            return redirect()->route('download-zip', ['user_id' => $this->login_id_usuario]); 
         
         } catch (Exception $e) {
             session()->flash('error', 'Ocorreu um erro interno, rotina "organizar". Erro: ' .$e->getMessage());
@@ -224,4 +242,26 @@ class Organizar extends Component {
             return redirect()->route('organizar');       
         }
     }  
+
+    public function criarZip()
+    {
+        $folderPath = $this->filtro_caminho_destino; // Caminho da pasta de resultado
+        $zipFilePath = storage_path('app\\public\\' . $this->login_id_usuario . '\\resultado.zip');
+
+        $zip = new ZipArchive;
+        if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folderPath));
+            foreach ($files as $file) {
+                if (!$file->isDir()) {
+                    $relativePath = substr($file->getRealPath(), strlen($folderPath) + 1);                  
+                    $zip->addFile($file->getRealPath(), $relativePath);
+                }
+            }
+            $zip->close();
+        } else {
+            session()->flash('error', 'Não foi possível criar o arquivo ZIP');
+            session()->put('caminhoPastaGoogleDrive',  '');
+            return redirect()->route('organizar');
+        }
+    }
 }

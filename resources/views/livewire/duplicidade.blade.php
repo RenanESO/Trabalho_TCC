@@ -23,11 +23,11 @@
                 <div class="card-body">
 
                     <!-- Inicio :: Tela Cinza Carregamento -->
-                    <div class="overlay" wire:loading wire:target="verificaDuplicidade, alterarTamanhoLog"> </div>
+                    <div class="overlay" wire:loading wire:target="verificaDuplicidade, alterarTamanhoLog, alterarStatusData"> </div>
                     <!-- Fim :: Tela Cinza Carregamento -->
 
                     <!-- Inicio :: Carregamento -->
-                    <div class="alert alert-primary text-center shadow-sm p-3 mx-3 mb-3 rounded" wire:loading.grid wire:target="verificaDuplicidade, alterarTamanhoLog">
+                    <div class="alert alert-primary text-center shadow-sm p-3 mx-3 mb-3 rounded" wire:loading.grid wire:target="verificaDuplicidade, alterarTamanhoLog, alterarStatusData">
                         <i class="fas fa-spinner fa-spin"></i> <span class="alert-text"> Aguarde Carregando... </span>
                     </div>
                     <!-- Fim :: Carregamento -->
@@ -139,7 +139,7 @@
                                             <div class="row">
                                                 <div class="col-lg">
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" wire:model="habilitar_data" onclick="toggleField('filtroDataStart', 'filtroDataEnd', this.checked)">
+                                                        <input class="form-check-input" type="checkbox" wire:click="alterarStatusData">
                                                         <label class="form-check-label" for="flexSwitchCheckDefault"> Deseja organizar a(s) foto(s) por data </label>
                                                     </div>
                                                 </div>
@@ -148,8 +148,8 @@
                                                 <div class="col-lg">
                                                     <div class="input-group">
                                                         <span class="input-group-text"> Periodo de Data: </span>
-                                                        <input id="filtroDataStart" class="form-control date-mask" type="date" placeholder="Data Inicial" wire:model="filtro_data_inicial" disabled>
-                                                        <input id="filtroDataEnd" class="form-control date-mask" type="date" placeholder="Data Final" wire:model="filtro_data_final" disabled>
+                                                        <input id="filtroDataStart" class="form-control date-mask" type="date" placeholder="Data Inicial" wire:model="filtro_data_inicial" {{ $habilitar_data }}>
+                                                        <input id="filtroDataEnd" class="form-control date-mask" type="date" placeholder="Data Final" wire:model="filtro_data_final" {{ $habilitar_data }}>
                                                     </div>
                                                 </div>
                                             </div>

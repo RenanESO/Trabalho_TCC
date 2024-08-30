@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use App\Services\DownloadController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\{
     FotoPlus,
@@ -21,7 +22,7 @@ Route::get('/', FotoPlus::class)->name('fotoplus');
 Route::get('/oauth-google-callback', AuthGoogleCallback::class)->name('oauth-google-callback');
 
 // Rota de download da pasta
-Route::get('/pasta-download-servidor', PastaDownloadServidor::class)->middleware('auth')->name('pasta-download-servidor');
+Route::get('/download-zip/{user_id}', [DownloadController::class, 'download'])->name('download-zip');
 
 // Agrupamento de rotas protegidas por autenticação
 Route::get('/home', Home::class)->middleware('auth')->name('home');

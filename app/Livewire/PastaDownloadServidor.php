@@ -14,6 +14,7 @@ class PastaDownloadServidor extends Component
     public $redirectUrl = null;
     public $retonarRota;
 
+    // Função construtora do componente "PastaDownloadServidor".
     public function mount($retonarRota = 'home') 
     {
         $this->retonarRota = $retonarRota;
@@ -21,6 +22,7 @@ class PastaDownloadServidor extends Component
         $this->caminhoPasta = $this->obterCaminhoAtualPasta();
     }
 
+    // Função render do componente "PastaDownloadServidor".
     public function render() 
     {   
         return view('livewire.pasta-download-servidor', [
@@ -28,6 +30,8 @@ class PastaDownloadServidor extends Component
         ]);
     }
 
+    // Função responsavel em listar todos arquivos da pasta selecionada 
+    // do Google Drive.
     public function listarArquivos() 
     {
         $googleServico = new GoogleService();
@@ -84,12 +88,17 @@ class PastaDownloadServidor extends Component
         $this->caminhoPasta = $this->obterCaminhoAtualPasta();
     }
 
+    // Função responsavel em selecionar a pasta com todos arquivos do 
+    // Google Drive, para depois realizar o download da pasta para 
+    // realizar a rotina python.
     public function selecionar() 
     {
         session()->put('caminhoPastaGoogleDrive',  $this->idPasta);
         return redirect()->route($this->retonarRota); 
     }
 
+    // Função responsavel em voltar uma pasta da pasta atual para 
+    // realizar a navegação entre pastas.
     public function voltar() 
     {
         if (!empty($this->historicoPastas)) {
